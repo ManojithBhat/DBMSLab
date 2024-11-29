@@ -1,0 +1,24 @@
+{
+  "name": "dbms-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "This is the backend part of the dbms project for lab",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js"
+  },
+  "keywords": [
+    "mongoose",
+    "node",
+    "express"
+  ],
+  "author": "Manojth Pranav Manish",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
