@@ -18,4 +18,12 @@ app.get('/',(req,res)=>{
     res.send("API is running");
 })
 
+//route import 
+import userRouter from './routes/user.route.js';
+app.use("/auth",userRouter)
+//http://localhost:8000/auth/register
+
+import counsellorRouter from './routes/counsellor.route.js';
+app.use("/auth/counsellor",counsellorRouter)
+
 export {app}

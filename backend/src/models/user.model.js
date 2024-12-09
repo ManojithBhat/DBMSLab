@@ -1,11 +1,10 @@
 import mongoose,{Schema} from "mongoose";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt.js"
+import bcrypt from "bcryptjs"
 
 const UserSchema = new Schema({
     username:{
         type:String,
-        required:true,
         lowercase:true,
         trim:true
     },
@@ -19,7 +18,6 @@ const UserSchema = new Schema({
     },
     department:{
         type:String,
-        required:[true,"Please provide a department"],
     },
     usn:{
         type:String,
