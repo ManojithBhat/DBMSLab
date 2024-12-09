@@ -235,7 +235,6 @@ const getUserProfile = AsyncHandler(async(req,res)=>{
     })
     .exec();
     
-
     res.status(200)
     .json(new ApiResponse(200,eventList,"User fetched successfully"))
 })

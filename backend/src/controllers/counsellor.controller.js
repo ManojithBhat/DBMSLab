@@ -36,10 +36,10 @@ return the response
 
 const registerCounsellor = AsyncHandler(async (req, res) => {
     // Get all fields from the req.body
-    const { email, password, username, department } = req.body;
+    const { email, password, username, department,code } = req.body;
 
     // Check for null fields (backend validation)
-    if ([email, password, username, department].some(field => field?.trim() === "")) {
+    if ([email, password, username, department,code].some(field => field?.trim() === "")) {
         throw new ApiError(400, "All fields are required");
     }
 
@@ -55,7 +55,8 @@ const registerCounsellor = AsyncHandler(async (req, res) => {
         email,
         password,
         username,
-        department
+        department,
+        code
     });
 
     // Fetch the created counsellor without sensitive information
@@ -72,7 +73,7 @@ const registerCounsellor = AsyncHandler(async (req, res) => {
     );
 });
 
-const loginUser = AsyncHandler(async(req,res)=>{
+const loginCounsellor = AsyncHandler(async(req,res)=>{
     /* request body ->data */
        /* get username or email/ */
        /* find the user */
@@ -125,7 +126,7 @@ const loginUser = AsyncHandler(async(req,res)=>{
 })
 
 
-const logoutUser = AsyncHandler(async(req,res)=>{
+const logoutCounsellor = AsyncHandler(async(req,res)=>{
     //to log out we have to clear cookies at the user end and also remove the refresh token from the db 
     await Counsellor.findByIdAndUpdate(
         req.user._id,
@@ -193,7 +194,7 @@ const refreshAccessToken = AsyncHandler(async(req,res)=>{
     }
 })
 
-const getUserProfile = AsyncHandler(async(req,res)=>{
+const getCounsellorProfile = AsyncHandler(async(req,res)=>{
     const usn = req.user.usn;
     if(!usn){
         throw new ApiError(400,"Username is missing ");
@@ -214,9 +215,9 @@ const getUserProfile = AsyncHandler(async(req,res)=>{
 
 export {
     registerCounsellor,
-    loginUser,
-    logoutUser,
-    getUserProfile,
+    loginCounsellor,
+    logoutCounsellor,
+    getCounsellorProfile,
     refreshAccessToken
 }
 

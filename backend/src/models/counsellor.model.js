@@ -20,12 +20,18 @@ const CounsellorSchema = new Schema(
             unique:true,
             trim:true
         },
-        password:{
+        password:{  
             type:String,
             required:true
         },
         refreshToken:{
             type:String
+        },
+        code:{
+            type:String,
+            required:true,
+            trime:true,
+            unique:true
         }
     },{
         timestamps:true
