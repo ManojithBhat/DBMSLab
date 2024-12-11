@@ -26,6 +26,12 @@ const CounsellorSchema = new Schema(
         },
         refreshToken:{
             type:String
+        },
+        code:{
+            type:String,
+            required:true,
+            trim:true,
+            unique:true
         }
     },{
         timestamps:true
