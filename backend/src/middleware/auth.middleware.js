@@ -10,16 +10,16 @@ export const verifyJWT = AsyncHandler(async(req,res,next)=>{
 
     try{
         const token = req.cookies?.accessToken || req.headers("Authorization")?.replace("Bearer ","");
-
+        
         //401 - lacks authentication
         if(!token){
             throw new ApiError(401,"Unauthorized request");
         }
 
         const decodeToken = jwt.verify(token,process.env.ACCESS_TOKEN_SECRET);
-
-        const user = await User.findById(decodeToken?._id).select("-password -refreshToken");
-
+        const email = decodeToken?.email;
+        const user = await User.findOne({email}).select("-password -refreshToken");
+        console.log(user);
         if(!user){
             throw new ApiError(404,"Invalid Access Token");
         }

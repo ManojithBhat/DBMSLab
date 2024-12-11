@@ -2,15 +2,19 @@ import {ApiError} from '../utils/ApiError.js'
 import {AsyncHandler} from '../utils/AsyncHandler.js'
 import {ApiResponse} from '../utils/ApiResponse.js'
 import {User} from '../models/user.model.js'
+import {Counsellor} from '../models/counsellor.model.js';
+import { Poc } from '../models/poc.model.js';
 import jwt from 'jsonwebtoken';
 
 
 const generateAccessAndRefreshTokens = async (userId)=>{
+    
     try{
         //find the user in the database
         const user = await User.findByIdAndUpdate(userId)
+        console.log(user);
         const accessToken = user.generateAccessToken()
-        const refreshToken = user.generateRefreshToken()
+        const refreshToken = user.generateRefrestToken()
         //there are methods
         user.refreshToken = refreshToken
         //mongoose will not validate the fields before saving 
@@ -57,7 +61,6 @@ const registerUser = AsyncHandler(async(req,res)=>{
         password:password
     })
 
-    console.log(user);
 
     const createdUser = await User.findById(user._id).select(
         "-password -refreshToken"
@@ -67,39 +70,79 @@ const registerUser = AsyncHandler(async(req,res)=>{
         throw new ApiError(500,"There was an error while creating the user in the database");
     }
 
-    res.status(201).json(
-        new ApiResponse(201,createdUser,"User created successfully")
-    );
+    const {accessToken,refreshToken} = await generateAccessAndRefreshTokens(user._id) 
+    console.log(accessToken,refreshToken)
+    //cookie are modifiable by only server and not the frontend 
+    const options = {
+        httpOnly : true,
+        secure : true,
+    }
+
+    return res.status(201)
+       .cookie("accessToken",accessToken,options)
+       .cookie("refreshToken",refreshToken,options)
+       .json(
+           new ApiResponse(
+               200,
+               {user:createdUser,accessToken,refreshToken},
+               "User created and logged in successfully"
+           )
+       )
 })
 
 /* Its a protected route */
 /*
 This route will be asking for the complete details of the user and adding in the database 
 */
-const register = AsyncHandler(async(req,res)=>{
-    const {username,department,usn,poc,role} = req.body;
-    
-    if([username,department,usn,poc,role].some(field=>field==="")){
-        throw new ApiError(400,"All fields are required ");
+const register = AsyncHandler(async(req,res)=> {
+    const { username, department, poc, role, counsellor } = req.body;
+
+    // Validate that required fields are provided in the request body
+    if ([username, department, role, counsellor].some(field => !field)) {
+        throw new ApiError(400, "All fields are required ");
     }
 
-    const user = await User.findById(req.user._id);
+    // If the role is 'volunteer', poc should be provided
+    if (role === 'volunteer' && !poc) {
+        throw new ApiError(400, "POC is required for volunteers ");
+    }
 
+    const user = await User.findById(req.user._id);  // Find user based on their ID
+
+    if (!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    // Fetch the counsellor from the database using the counsellor code
+    const counsellorId = await Counsellor.findOne({ code: counsellor });
+
+    if (!counsellorId) {
+        throw new ApiError(404, "No counsellor with the given code");
+    }
+
+    let pocId = null;  // Default pocId to null
+
+    if (role === 'volunteer') {
+        pocId = await Poc.findOne({ pocNumber: poc });
+
+        if (!pocId) {
+            throw new ApiError(404, "No POC with the given Poc number");
+        }
+    }
+
+    // Update user details
     user.username = username;
     user.department = department;
-    user.usn = usn;
-    user.poc = poc;
+    user.poc = pocId._id || null;  
+    user.counsellorId = counsellorId._id;  
     user.role = role;
 
-    //save is custom method writtern by us in the user.model.js which will hash the password before saving but if we have the password that is same as newPassword then it will not hash it again,it is bc of the pre save hook
+    console.log(user.poc, user.counsellorId);  
 
-    await user.save({validateBeforeSave:false})
+    await user.save({ validateBeforeSave: false });
 
-
-    res.status(200)
-    .json(new ApiResponse(200,user,"User details updated successfully"));
-
-})
+    res.status(200).json(new ApiResponse(200, user, "User details updated successfully"));
+});
 
 const loginUser = AsyncHandler(async(req,res)=>{
     /* request body ->data */

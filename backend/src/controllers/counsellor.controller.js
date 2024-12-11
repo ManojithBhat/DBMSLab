@@ -10,8 +10,8 @@ const generateAccessAndRefreshTokens = async (userId)=>{
     try{
         //find the user in the database
         const counsellor = await Counsellor.findByIdAndUpdate(userId)
-        const accessToken = counsellor.generateAccessToken()
-        const refreshToken = counsellor.generateRefreshToken()
+        const accessToken = counsellor.generateAccessToken;
+        const refreshToken = counsellor.generateRefreshToken;
         //there are methods
         counsellor.refreshToken = refreshToken
         //mongoose will not validate the fields before saving 
@@ -68,9 +68,23 @@ const registerCounsellor = AsyncHandler(async (req, res) => {
         throw new ApiError(500, "There was an error while creating the counsellor in the database");
     }
 
-    res.status(201).json(
-        new ApiResponse(201, createdCounsellor, "Counsellor registered successfully")
-    );
+    const {accessToken,refreshToken} = await generateAccessAndRefreshTokens(counsellor._id) 
+
+    const options = {
+        httpOnly : true,
+        secure : true,
+    }
+
+    return res.status(200)
+       .cookie("accessToken",accessToken,options)
+       .cookie("refreshToken",refreshToken,options)
+       .json(
+           new ApiResponse(
+               200,
+               {user:createdCounsellor,accessToken,refreshToken},
+               "Counsellor Created and LoggedIn in successfully"
+           )
+       )
 });
 
 const loginCounsellor = AsyncHandler(async(req,res)=>{

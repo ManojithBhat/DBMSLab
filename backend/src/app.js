@@ -1,7 +1,7 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import { verifyJWT } from "../middleware/auth.middleware.js";
+import { verifyJWT } from './middleware/auth.middleware.js';
 
 const app = express();
 
@@ -21,6 +21,7 @@ app.get('/',(req,res)=>{
 
 //route import 
 import userRouter from './routes/user.route.js';
+
 app.use("/auth",userRouter)
 //http://localhost:8000/auth/register
 

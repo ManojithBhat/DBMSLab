@@ -75,10 +75,9 @@ UserSchema.methods.isPasswordCorrect = async function(password){
 }
 
 //method to generate access token 
-UserSchema.generateAccessToken = function(){
+UserSchema.methods.generateAccessToken = function(){
     //payload 
     return jwt.sign({
-        _id: this._id,
         email:this.email,
         username:this.username,
     },process.env.ACCESS_TOKEN_SECRET,{
@@ -86,9 +85,9 @@ UserSchema.generateAccessToken = function(){
     })
 }
 
-UserSchema.generateRefrestToken = function(){
+UserSchema.methods.generateRefrestToken = function(){
     return jwt.sign({
-        _id:this_id,
+        email : this.email,
     },process.env.REFRESH_TOKEN_SECRET,{
         expiresIn:process.env.REFRESH_TOKEN_EXPIRY
     })
