@@ -34,69 +34,46 @@ check for the user creation
 return the response 
 */
 
-const registerCounsellor = AsyncHandler(async(req,res)=>{
-    //get email and password field from the req.body
-    const {email,password} = req.body;
+const registerCounsellor = AsyncHandler(async (req, res) => {
+    // Get all fields from the req.body
+    const { email, password, username, department,code } = req.body;
 
-    //check for the null fields { backend validation }
-    if(username === "" || password==="") throw new ApiError(400,"Either username or password is not there ");
-    
-    //check for the existing user 
-    const existedUser = await Counsellor.findOne({
-        email
-    })
-
-    // HTTP 409 conflict status code indicates that clients request conflict
-    if(existedUser){
-        throw new ApiError(409,"User already existed");
+    // Check for null fields (backend validation)
+    if ([email, password, username, department,code].some(field => field?.trim() === "")) {
+        throw new ApiError(400, "All fields are required");
     }
 
-    //create the new user in the database 
-    const user = await Counsellor.create({
-        email:email,
-        password:password
-    })
+    // Check for existing user
+    const existingUser = await Counsellor.findOne({ email });
 
-    const createdUser = await Counsellor.findById(user._id).select(
+    if (existingUser) {
+        throw new ApiError(409, "User with this email already exists");
+    }
+
+    // Create the new counsellor in the database with all information
+    const counsellor = await Counsellor.create({
+        email,
+        password,
+        username,
+        department,
+        code
+    });
+
+    // Fetch the created counsellor without sensitive information
+    const createdCounsellor = await Counsellor.findById(counsellor._id).select(
         "-password -refreshToken"
-    )
+    );
 
-    if(!createdUser){
-        throw new ApiError(500,"There was an error while creating the user in the database");
+    if (!createdCounsellor) {
+        throw new ApiError(500, "There was an error while creating the counsellor in the database");
     }
 
     res.status(201).json(
-        new ApiResponse(201,createdUser,"User created successfully")
+        new ApiResponse(201, createdCounsellor, "Counsellor registered successfully")
     );
-})
+});
 
-/* Its a protected route */
-/*
-This route will be asking for the complete details of the user and adding in the database 
-*/
-const register = AsyncHandler(async(req,res)=>{
-    const {username,department} = req.body;
-    
-    if([username,department].some(field=>field==="")){
-        throw new ApiError(400,"All fields are required ");
-    }
-
-    const user = await Counsellor.findById(req.user._id);
-
-    user.username = username;
-    user.department = department;
-
-    //save is custom method writtern by us in the user.model.js which will hash the password before saving but if we have the password that is same as newPassword then it will not hash it again,it is bc of the pre save hook
-
-    await user.save({validateBeforeSave:false})
-
-
-    res.status(200)
-    .json(new ApiResponse(200,user,"User details updated successfully"));
-
-})
-
-const loginUser = AsyncHandler(async(req,res)=>{
+const loginCounsellor = AsyncHandler(async(req,res)=>{
     /* request body ->data */
        /* get username or email/ */
        /* find the user */
@@ -149,7 +126,7 @@ const loginUser = AsyncHandler(async(req,res)=>{
 })
 
 
-const logoutUser = AsyncHandler(async(req,res)=>{
+const logoutCounsellor = AsyncHandler(async(req,res)=>{
     //to log out we have to clear cookies at the user end and also remove the refresh token from the db 
     await Counsellor.findByIdAndUpdate(
         req.user._id,
@@ -217,7 +194,7 @@ const refreshAccessToken = AsyncHandler(async(req,res)=>{
     }
 })
 
-const getUserProfile = AsyncHandler(async(req,res)=>{
+const getCounsellorProfile = AsyncHandler(async(req,res)=>{
     const usn = req.user.usn;
     if(!usn){
         throw new ApiError(400,"Username is missing ");
@@ -237,11 +214,10 @@ const getUserProfile = AsyncHandler(async(req,res)=>{
 
 
 export {
-    register,
     registerCounsellor,
-    loginUser,
-    logoutUser,
-    getUserProfile,
+    loginCounsellor,
+    logoutCounsellor,
+    getCounsellorProfile,
     refreshAccessToken
 }
 

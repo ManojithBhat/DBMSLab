@@ -35,16 +35,16 @@ return the response
 
 const registerUser = AsyncHandler(async(req,res)=>{
     //get email and password field from the req.body
-    const {email,password} = req.body;
+    const {email,usn,password} = req.body;
 
     //check for the null fields { backend validation }
-    if(username === "" || password==="") throw new ApiError(400,"Either username or password is not there ");
+    if(email === "" || password==="" || usn ==="") throw new ApiError(400,"Either username or password is not there ");
     
     //check for the existing user 
     const existedUser = await User.findOne({
-        email
-    })
-
+        $or: [{ email: email }, { usn: usn }]
+    });
+    
     // HTTP 409 conflict status code indicates that clients request conflict
     if(existedUser){
         throw new ApiError(409,"User already existed");
@@ -52,9 +52,12 @@ const registerUser = AsyncHandler(async(req,res)=>{
 
     //create the new user in the database 
     const user = await User.create({
+        usn:usn,
         email:email,
         password:password
     })
+
+    console.log(user);
 
     const createdUser = await User.findById(user._id).select(
         "-password -refreshToken"
@@ -232,7 +235,6 @@ const getUserProfile = AsyncHandler(async(req,res)=>{
     })
     .exec();
     
-
     res.status(200)
     .json(new ApiResponse(200,eventList,"User fetched successfully"))
 })

@@ -2,11 +2,21 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-export default function SignupPage() {
-  const navigate = useNavigate();
+const departments = [
+  'Computer Science and Engineering (CSE)',
+  'Information Science and Engineering (ISE)',
+  'Electrical and Electronics Engineering (EEE)',
+  'Electronics and Communication Engineering (ECE)',
+  'Mechanical Engineering (ME)',
+  'Aerospace Engineering (ASE)',
+];
 
+export default function CounsellorSignup() {
+  const router = useNavigate();
+
+  const [username, setUsername] = useState('');
+  const [department, setDepartment] = useState('');
   const [email, setEmail] = useState('');
-  const [usn, setUSN] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -22,15 +32,15 @@ export default function SignupPage() {
     }
 
     try {
-      const response = await axios.post('/auth/signup', { 
+      const response = await axios.post('/auth/counsellor/register', { 
+        username,
+        department,
         email,
-        usn,
         password,
       });
 
       if (response.status === 201) {
-        console.log('Signup successful');
-        navigate('/login');
+        console.log('Counsellor signup successful');
       } else {
         console.error('Signup failed:', response);
         setError('Signup failed');
@@ -44,8 +54,40 @@ export default function SignupPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
-        <h2 className="text-2xl font-bold text-center mb-6">Sign up</h2>
+        <h2 className="text-2xl font-bold text-center mb-6">Counsellor Sign up</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+              Username
+            </label>
+            <input
+              id="username"
+              type="text"
+              required
+              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
+          <div>
+            <label htmlFor="department" className="block text-sm font-medium text-gray-700">
+              Department
+            </label>
+            <select
+              id="department"
+              required
+              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              value={department}
+              onChange={(e) => setDepartment(e.target.value)}
+            >
+              <option value="">Select Department</option>
+              {departments.map((dept) => (
+                <option key={dept} value={dept}>
+                  {dept}
+                </option>
+              ))}
+            </select>
+          </div>
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
               Email
@@ -57,19 +99,6 @@ export default function SignupPage() {
               className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="usn" className="block text-sm font-medium text-gray-700">
-              USN
-            </label>
-            <input
-              id="usn"
-              type="text"
-              required
-              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              value={usn}
-              onChange={(e) => setUSN(e.target.value)}
             />
           </div>
           <div>
@@ -150,3 +179,4 @@ export default function SignupPage() {
     </div>
   );
 }
+

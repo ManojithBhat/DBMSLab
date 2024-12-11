@@ -20,7 +20,7 @@ const CounsellorSchema = new Schema(
             unique:true,
             trim:true
         },
-        password:{
+        password:{  
             type:String,
             required:true
         },
@@ -30,7 +30,7 @@ const CounsellorSchema = new Schema(
         code:{
             type:String,
             required:true,
-            trim:true,
+            trime:true,
             unique:true
         }
     },{
