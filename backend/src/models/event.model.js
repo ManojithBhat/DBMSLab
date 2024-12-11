@@ -5,7 +5,8 @@ const EventSchema = new Schema({
         type:String,
         required:[true,"Please provide an event name"],
         trim:true,
-        index:true
+        index:true,
+        lowercase:true
     },
     date:{
         type:Date,

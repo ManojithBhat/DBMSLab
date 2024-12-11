@@ -13,7 +13,7 @@ router.post('/signup',registerUser);
 Field should contain : Name, departement, Counsellor -  */
 router.post('/register',verifyJWT,register); 
 router.post('/login',loginUser);
-router.post('/logout',logoutUser);
+router.post('/logout',verifyJWT,logoutUser);
 
 
 export default router;

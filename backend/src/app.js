@@ -26,7 +26,7 @@ app.use("/auth",userRouter)
 //http://localhost:8000/auth/register
 
 import viewRouter from './routes/view.route.js'
-app.use("/view",verifyJWT,viewRouter) //protected routes. 
+app.use("/view",viewRouter) //protected routes. 
 
 import counsellorRouter from './routes/counsellor.route.js';
 app.use("/auth/counsellor",counsellorRouter)

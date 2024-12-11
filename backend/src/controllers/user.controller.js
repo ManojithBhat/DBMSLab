@@ -3,6 +3,7 @@ import {AsyncHandler} from '../utils/AsyncHandler.js'
 import {ApiResponse} from '../utils/ApiResponse.js'
 import {User} from '../models/user.model.js'
 import {Counsellor} from '../models/counsellor.model.js';
+import { Event } from '../models/event.model.js';
 import { Poc } from '../models/poc.model.js';
 import jwt from 'jsonwebtoken';
 
@@ -265,22 +266,31 @@ const refreshAccessToken = AsyncHandler(async(req,res)=>{
     }
 })
 
-const getUserProfile = AsyncHandler(async(req,res)=>{
-    const usn = req.user.usn;
-    if(!usn){
-        throw new ApiError(400,"Username is missing ");
+
+const getUserProfile = AsyncHandler(async (req, res) => {
+    const usn = req.user.usn; // Assuming the user's `usn` is available in `req.user`
+    
+    if (!usn) {
+        throw new ApiError(400, "USN is missing");
     }
 
-    const eventList = await User.findOne({usn})
-    .populate({
-      path: 'eventList',
-      select: 'eventName',
-    })
-    .exec();
-    
-    res.status(200)
-    .json(new ApiResponse(200,eventList,"User fetched successfully"))
-})
+    // Find the user by their USN and populate the events they participated in
+    const user = await User.findOne({ usn })
+        .populate({
+            path: "participated",
+            select: "eventName date location description", 
+        })
+        .exec();
+
+    if (!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    res.status(200).json(new ApiResponse(200, user, "User fetched successfully"));
+});
+
+export default getUserProfile;
+
 
 
 export {

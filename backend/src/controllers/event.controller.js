@@ -4,6 +4,9 @@ import {ApiResponse} from '../utils/ApiResponse.js';
 import {Event} from '../models/events.model.js';
 import {User} from '../models/user.model.js';
 
+/* Add the event details to the Event database
+It takes in the eventname, description, date, location and adds it to the database 
+It also checks if the same event ( with eventname and date being same ) and then throws error if its alreay present */
 const addEvent = AsyncHandler(async(req,res)=>{
     const {eventName,description,location,date} = req.body;
 
@@ -33,7 +36,7 @@ const addEvent = AsyncHandler(async(req,res)=>{
         throw new ApiError(500,"Event could not be created")
     }
 
-    const createdEvent = await Event.findById(event._id).select("-driveLink -image")
+    const createdEvent = await Event.findById(event._id);
 
     res.status(200).json(
         new ApiResponse(200,createdEvent,"Event created successfully")
@@ -42,7 +45,7 @@ const addEvent = AsyncHandler(async(req,res)=>{
 })
 
 const updateEvent = AsyncHandler(async(req,res)=>{
-    const {eventName,description,location,date,driveLink,image} = req.body;
+    const {eventName,description,location,date} = req.body;
 
    if(!eventName && !description && !location && !date){
          throw new ApiError(400,"Atleast one field is required to update")

@@ -58,10 +58,10 @@ CounsellorSchema.methods.isPasswordCorrect = async function(password){
 }
 
 //method to generate access token 
-CounsellorSchema.generateAccessToken = function(){
+CounsellorSchema.methods.generateAccessToken = function(){
     //payload 
     return jwt.sign({
-        _id: this._id,
+        _id:this._id,
         email:this.email,
         username:this.username,
     },process.env.ACCESS_TOKEN_SECRET,{
@@ -69,9 +69,9 @@ CounsellorSchema.generateAccessToken = function(){
     })
 }
 
-CounsellorSchema.generateRefrestToken = function(){
+CounsellorSchema.methods.generateRefreshToken = function(){
     return jwt.sign({
-        _id:this_id,
+        _id:this._id,
     },process.env.REFRESH_TOKEN_SECRET,{
         expiresIn:process.env.REFRESH_TOKEN_EXPIRY
     })
