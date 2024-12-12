@@ -31,4 +31,7 @@ app.use("/view",viewRouter) //protected routes.
 import counsellorRouter from './routes/counsellor.route.js';
 app.use("/auth/counsellor",counsellorRouter)
 
+import EventRouter from './routes/event.route.js';
+app.use("/event",EventRouter);
+
 export {app}

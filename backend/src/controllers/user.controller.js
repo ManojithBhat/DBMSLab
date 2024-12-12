@@ -123,7 +123,7 @@ const register = AsyncHandler(async(req,res)=> {
 
     let pocId = null;  // Default pocId to null
 
-    if (role === 'volunteer') {
+    if (role === 'volunteer' || role === 'admin') {
         pocId = await Poc.findOne({ pocNumber: poc });
 
         if (!pocId) {

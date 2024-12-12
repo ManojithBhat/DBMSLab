@@ -19,7 +19,7 @@ export const counsellorVerifyJWT = AsyncHandler(async(req,res,next)=>{
         const decodeToken = jwt.verify(token,process.env.ACCESS_TOKEN_SECRET);
         const email = decodeToken?.email;
         const user = await Counsellor.findOne({email}).select("-password -refreshToken");
-        console.log(user);
+        
         if(!user){
             throw new ApiError(404,"Invalid Access Token");
         }

@@ -1,7 +1,7 @@
 import {ApiError} from '../utils/ApiError.js';
 import {AsyncHandler} from '../utils/AsyncHandler.js';
 import {ApiResponse} from '../utils/ApiResponse.js';
-import {Event} from '../models/events.model.js';
+import {Event} from '../models/event.model.js';
 import {User} from '../models/user.model.js';
 
 /* Add the event details to the Event database
@@ -10,10 +10,9 @@ It also checks if the same event ( with eventname and date being same ) and then
 const addEvent = AsyncHandler(async(req,res)=>{
     const {eventName,description,location,date} = req.body;
 
-    if([eventName,description,location,date].some(field=>field?.trim()===" ")){
+    if([eventName,description,location,date].some(field=>field?.trim()==="")){
         throw new ApiError(400,"All fields are required ");
     }
-
 
     const existedEvent = await Event.findOne({
         $and:[{eventName},{date}]
@@ -44,6 +43,7 @@ const addEvent = AsyncHandler(async(req,res)=>{
 
 })
 
+//It updates the event details by taking the id from the parameter and changes the required field
 const updateEvent = AsyncHandler(async(req,res)=>{
     const {eventName,description,location,date} = req.body;
 
@@ -51,7 +51,6 @@ const updateEvent = AsyncHandler(async(req,res)=>{
          throw new ApiError(400,"Atleast one field is required to update")
     }
 
-    //have a doubt on from where the data comes from - it could be params or req.body
     const event = await Event.findById(req.params.id);
 
     if(!event){
@@ -70,6 +69,7 @@ const updateEvent = AsyncHandler(async(req,res)=>{
     )
 })
 
+//delete the event
 const deleteEvent = AsyncHandler(async(req,res)=>{
     const event = await Event.findById(req.params.id);
 
@@ -77,12 +77,13 @@ const deleteEvent = AsyncHandler(async(req,res)=>{
         throw new ApiError(404,"Event not found")
     }
 
-    await event.remove();
+    await Event.findByIdAndDelete(event);
 
     res.status(200).json(
         new ApiResponse(200,event,"Event deleted successfully")
     )
 })
+
 
 const addEventUsers = AsyncHandler(async(req,res)=>{
     const {eventId} = req.params;
