@@ -89,7 +89,6 @@ const addEventUsers = AsyncHandler(async(req,res)=>{
     const {eventId} = req.params;
     const {usn} = req.body;
 
-    console.log(eventId)
     const event = await Event.findById(eventId);
 
     if(!event){
@@ -102,11 +101,11 @@ const addEventUsers = AsyncHandler(async(req,res)=>{
         throw new ApiError(404,"User not found")
     }
 
-    if (event.volunteers.includes(user._id)) {
+    if (event.participants.includes(user._id)) {
         return res.status(400).json(new ApiError(400, "User already added to event"));
     }
 
-    event.volunteers.push(user._id);
+    event.participants.push(user._id);
 
     await event.save();
 
@@ -119,7 +118,7 @@ const addEventUsers = AsyncHandler(async(req,res)=>{
 //used to fetch the detail of the particular event. 
 const getEventDetails = AsyncHandler(async(req,res)=>{
     const {eventId} = req.params;
-
+    
     const event = await Event.findById(eventId);
 
     if(!event){
@@ -128,9 +127,9 @@ const getEventDetails = AsyncHandler(async(req,res)=>{
 
     const volunteers = await Event.findOne(event)
     .populate({
-        path:"volunteers",
-        select:"usn username"
-    })
+        path:"participants",
+        select:"usn username email department role"
+    }).exec()
 
     if(!volunteers){
         throw new ApiError(404,"No volunteers found")

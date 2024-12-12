@@ -12,14 +12,14 @@ const generateAccessAndRefreshTokens = async (userId)=>{
     
     try{
         //find the user in the database
-        const user = await User.findByIdAndUpdate(userId)
+        const user = await User.findById(userId)
         console.log(user);
         const accessToken = user.generateAccessToken()
         const refreshToken = user.generateRefrestToken()
         //there are methods
         user.refreshToken = refreshToken
         //mongoose will not validate the fields before saving 
-        await user.save({valiateBeforeSave:false})
+        await user.save({validateBeforeSave:false})
         return {accessToken,refreshToken}
 
     }catch(err){
