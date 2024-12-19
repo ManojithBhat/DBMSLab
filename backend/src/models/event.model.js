@@ -24,6 +24,10 @@ const EventSchema = new Schema({
         type:Schema.Types.ObjectId,
         ref:"User"
     },
+    activityPoints:{
+        type:Number,
+        required:[true,"Please provide activity points"],
+    },
     participants:[
         {
             type:Schema.Types.ObjectId,
