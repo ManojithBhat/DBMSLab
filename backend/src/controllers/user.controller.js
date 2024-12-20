@@ -27,7 +27,6 @@ const generateAccessAndRefreshTokens = async (userId)=>{
     }
 }
 
-
 /*
 Will get the user details from the frontend
 validation has to be done here for the email and password.
