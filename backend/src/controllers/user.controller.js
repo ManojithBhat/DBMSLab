@@ -72,7 +72,7 @@ const registerUser = AsyncHandler(async(req,res)=>{
     }
 
     const {accessToken,refreshToken} = await generateAccessAndRefreshTokens(user._id) 
-    console.log(accessToken,refreshToken)
+    //console.log(accessToken,refreshToken)
     //cookie are modifiable by only server and not the frontend 
     const options = {
         httpOnly : true,
@@ -138,9 +138,9 @@ const register = AsyncHandler(async(req,res)=> {
     user.counsellorId = counsellorId._id;  
     user.role = role;
 
-    console.log(user.poc, user.counsellorId);  
+    //console.log(user.poc, user.counsellorId);  
 
-    await user.save({ validateBeforeSave: false });
+    await user.save({ validateBeforeSave:true });
 
     res.status(200).json(new ApiResponse(200, user, "User details updated successfully"));
 });
@@ -178,6 +178,7 @@ const loginUser = AsyncHandler(async(req,res)=>{
        const {accessToken,refreshToken} = await generateAccessAndRefreshTokens(user._id) 
 
        const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
+       //console.log(loggedInUser)
 
        //cookie are modifiable by only server and not the frontend 
        const options = {
@@ -280,11 +281,21 @@ const getUserProfile = AsyncHandler(async (req, res) => {
             path: "participated",
             select: "eventName date location description", 
         })
+        .populate({
+            path:"poc",
+            select:"pocNumber pocName"
+        })
+        .populate({
+            path:"counsellorId",
+            select:"username department email"
+        })
         .exec();
 
     if (!user) {
         throw new ApiError(404, "User not found");
     }
+
+    console.log(user.username)
 
     res.status(200).json(new ApiResponse(200, user, "User fetched successfully"));
 });

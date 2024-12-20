@@ -8,7 +8,7 @@ import {User} from '../models/user.model.js';
 It takes in the eventname, description, date, location and adds it to the database 
 It also checks if the same event ( with eventname and date being same ) and then throws error if its alreay present */
 const addEvent = AsyncHandler(async(req,res)=>{
-    const {eventName,description,location,date} = req.body;
+    const {eventName,description,location,date,activityPoints} = req.body;
 
     if([eventName,description,location,date].some(field=>field?.trim()==="")){
         throw new ApiError(400,"All fields are required ");
@@ -28,7 +28,8 @@ const addEvent = AsyncHandler(async(req,res)=>{
         description:description,
         location:location,
         date:date,
-        lead:req.user._id
+        lead:req.user._id,
+        activityPoints:activityPoints
     })
 
     if(!event){
@@ -84,7 +85,6 @@ const deleteEvent = AsyncHandler(async(req,res)=>{
     )
 })
 
-
 const addEventUsers = AsyncHandler(async(req,res)=>{
     const {eventId} = req.params;
     const {usn} = req.body;
@@ -108,6 +108,14 @@ const addEventUsers = AsyncHandler(async(req,res)=>{
     event.participants.push(user._id);
 
     await event.save();
+
+    if(user.participated.includes(eventId)){
+        return res.status(400).json(new ApiError(400,"Event already added in the user list"));
+    }
+
+    user.participated.push(eventId);
+
+    await user.save();
 
     res.status(200).json(
         new ApiResponse(200,event,"User added to event successfully")

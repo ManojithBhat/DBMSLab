@@ -77,7 +77,6 @@ export default function RegisterPage() {
                   id="fullName"
                   required
                   className="focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                  placeholder="John Doe"
                   value={formData.fullName}
                   onChange={handleChange}
                 />
@@ -108,29 +107,6 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label htmlFor="poc" className="block text-sm font-medium text-gray-700">
-                POC
-              </label>
-              <div className="mt-1">
-                <select
-                  name="poc"
-                  id="poc"
-                  required
-                  className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
-                  value={formData.poc}
-                  onChange={handleChange}
-                >
-                  <option value="">Select POC</option>
-                  {[...Array(10)].map((_, i) => (
-                    <option key={i} value={i + 1}>
-                      {i + 1}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <div>
               <label htmlFor="counsellorId" className="block text-sm font-medium text-gray-700">
                 Counsellor ID
               </label>
@@ -141,7 +117,6 @@ export default function RegisterPage() {
                   id="counsellorId"
                   required
                   className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
-                  placeholder="ABC123"
                   value={formData.counsellorId}
                   onChange={handleChange}
                 />
@@ -167,6 +142,31 @@ export default function RegisterPage() {
                 </select>
               </div>
             </div>
+
+            {formData.nssVolunteer === 'yes' && (
+              <div>
+                <label htmlFor="poc" className="block text-sm font-medium text-gray-700">
+                  POC
+                </label>
+                <div className="mt-1">
+                  <select
+                    name="poc"
+                    id="poc"
+                    required
+                    className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
+                    value={formData.poc}
+                    onChange={handleChange}
+                  >
+                    <option value="">Select POC</option>
+                    {[...Array(10)].map((_, i) => (
+                      <option key={i} value={i + 1}>
+                        {i + 1}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            )}
 
             <div>
               <button
@@ -195,4 +195,3 @@ export default function RegisterPage() {
     </div>
   );
 }
-
