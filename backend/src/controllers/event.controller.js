@@ -123,12 +123,47 @@ const addEventUsers = AsyncHandler(async(req,res)=>{
 
 })
 
+const removeEventUser = AsyncHandler(async (req, res) => {
+    const { eventId } = req.params;
+    const { usn } = req.body;
+
+    const event = await Event.findById(eventId);
+
+    if (!event) {
+        throw new ApiError(404, "Event not found");
+    }
+
+    const user = await User.findOne({ usn });
+
+    if (!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    if (!event.participants.includes(user._id)) {
+        return res.status(400).json(new ApiError(400, "User is not a participant of the event"));
+    }
+
+    event.participants = event.participants.filter(participant => !participant.equals(user._id));
+    await event.save();
+
+    if (!user.participated.includes(eventId)) {
+        return res.status(400).json(new ApiError(400, "Event is not listed in the user's participation list"));
+    }
+
+    user.participated = user.participated.filter(participatedEvent => !participatedEvent.equals(eventId));
+    await user.save();
+
+    res.status(200).json(
+        new ApiResponse(200, event, "User removed from event successfully")
+    );
+});
+
+
 //used to fetch the detail of the particular event. 
 const getEventDetails = AsyncHandler(async(req,res)=>{
     const {eventId} = req.params;
     
     const event = await Event.findById(eventId);
-
     if(!event){
         throw new ApiError(404,"Event not found");
     }
@@ -136,7 +171,11 @@ const getEventDetails = AsyncHandler(async(req,res)=>{
     const volunteers = await Event.findOne(event)
     .populate({
         path:"participants",
-        select:"usn username email department role"
+        select:"usn email department role username"
+    })
+    .populate({
+        path:"lead",
+        select:"usn username email department"
     }).exec()
 
     if(!volunteers){
@@ -169,5 +208,6 @@ export {
     deleteEvent,
     addEventUsers,
     getEventDetails,
-    getEvent
+    getEvent,
+    removeEventUser
 };

@@ -11,13 +11,15 @@ const Navbar = () => {
       <div>
         {user ? (
           <>
-            <span className="mr-4">Hello, {user.name}</span>
+            <span className="mr-4">Hello, {user.username}</span>
+            <div className='mr-4'> <Link to='/dashboard'>Dashboard</Link></div>
             <button onClick={logout} className="bg-red-500 px-3 py-1 rounded">Logout</button>
           </>
         ) : (
           <>
             <Link to="/login" className="mr-4">Login</Link>
-            <Link to="/register">Register</Link>
+            <Link to="/signup">Signup</Link>
+            
           </>
         )}
       </div>

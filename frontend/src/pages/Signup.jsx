@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useAuth } from '../components/AuthProvider';
+import axiosInstance from '../api/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 
 export default function SignupPage() {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const [email, setEmail] = useState('');
   const [usn, setUSN] = useState('');
@@ -22,15 +24,19 @@ export default function SignupPage() {
     }
 
     try {
-      const response = await axios.post('/auth/signup', { 
+      const response = await axiosInstance.post('/auth/signup',{ 
         email,
         usn,
         password,
       });
 
+      console.log(response);
+      
+      login(response.data.data.accessToken);
+
       if (response.status === 201) {
         console.log('Signup successful');
-        navigate('/login');
+        navigate('/register');
       } else {
         console.error('Signup failed:', response);
         setError('Signup failed');

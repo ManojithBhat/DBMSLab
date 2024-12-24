@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../api/axiosInstance';
 
 const departments = [
   { value: 'CSE', label: 'Computer Science and Engineering (CSE)' },
@@ -15,9 +17,11 @@ export default function RegisterPage() {
     fullName: '',
     department: '',
     poc: '',
-    counsellorId: '',
+    counsellor: '',
     nssVolunteer: '',
   });
+
+  const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -34,21 +38,18 @@ export default function RegisterPage() {
     setSuccess(false);
 
     try {
-      const response = await axios.post('/api/register', new URLSearchParams(formData), {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      });
+      const response = await axiosInstance.post('/auth/register',formData);
 
       if (response.status === 201) {
         setSuccess(true);
         setFormData({
-          fullName: '',
+          username: '',
           department: '',
           poc: '',
-          counsellorId: '',
+          counsellor: '',
           nssVolunteer: '',
         });
+        navigate('/dashboard');
       }
     } catch (err) {
       setError('An error occurred. Please try again.');
@@ -77,7 +78,7 @@ export default function RegisterPage() {
                   id="fullName"
                   required
                   className="focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                  value={formData.fullName}
+                  value={formData.username}
                   onChange={handleChange}
                 />
               </div>
@@ -117,7 +118,7 @@ export default function RegisterPage() {
                   id="counsellorId"
                   required
                   className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
-                  value={formData.counsellorId}
+                  value={formData.counsellor}
                   onChange={handleChange}
                 />
               </div>

@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
       await axiosInstance.post('/auth/logout', {}, { withCredentials: true });
       localStorage.removeItem('accessToken');
       setUser(null);
-      window.location.href = '/login'; // Redirect to login page after logout
+      window.location.href = '/'; //redirect to home page after login
     } catch (err) {
       console.error('Logout failed', err);
     }

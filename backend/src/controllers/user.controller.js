@@ -13,7 +13,6 @@ const generateAccessAndRefreshTokens = async (userId)=>{
     try{
         //find the user in the database
         const user = await User.findById(userId)
-        console.log(user);
         const accessToken = user.generateAccessToken()
         const refreshToken = user.generateRefrestToken()
         //there are methods
@@ -71,7 +70,7 @@ const registerUser = AsyncHandler(async(req,res)=>{
     }
 
     const {accessToken,refreshToken} = await generateAccessAndRefreshTokens(user._id) 
-    //console.log(accessToken,refreshToken)
+
     //cookie are modifiable by only server and not the frontend 
     const options = {
         httpOnly : true,
@@ -294,7 +293,7 @@ const getUserProfile = AsyncHandler(async (req, res) => {
         throw new ApiError(404, "User not found");
     }
 
-    console.log(user.username)
+
 
     res.status(200).json(new ApiResponse(200, user, "User fetched successfully"));
 });
