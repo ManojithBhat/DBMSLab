@@ -13,11 +13,13 @@ import CounsellorProfile from './pages/CounsellorProfile';
 import EventDetails from './pages/EventDetails';
 import ListEvents from './pages/ListEvents';
 import AddVolunteers from './pages/AddVolunteers';
+import DashBoardUSN from './pages/DashBoardUSN';
 
 //css
 import './App.css'
 import './index.css'
-import CounsellorSignup from './pages/CousnellorSignup'
+import CounsellorSignup from './pages/CousnellorSignup';
+import CounsellorLogin from './pages/CousnellorLogin';
 import AddEvent from './pages/AddEvent';
 import HomePage from './pages/HomePage';
 import Footer from './components/Footer';
@@ -32,15 +34,17 @@ function App() {
       <Route path="/signup" element = {<SignupPage/>} /> 
       <Route path="/register" element = {<RegisterPage/>} /> 
       <Route path="/counsellor/signup" element = {<CounsellorSignup/>} /> 
+      <Route path="/counsellor/login" element = {<CounsellorLogin/>} />
       <Route path="/login" element={<Login />} />
-      <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-      <Route path="/profile/counsellor/:counsellorId" element={<CounsellorProfile />} />
-      <Route path="/list-events/:eventId" element={<EventDetails />} />
+      <Route path="/profile" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+      <Route path="/profile/counsellor" element={<CounsellorProfile />} />
+      <Route path="/events/view/:eventId" element={<EventDetails />} />
       <Route path="/addevent" element={<AddEvent/>}/>
       <Route path="/list-events" element = {<ListEvents/>}/>
-      <Route path="/sumne/:eventId" element={<AddVolunteers/>}/>    
+      <Route path="/add-volunteers/:eventId" element={<AddVolunteers/>}/> 
+      <Route path="/students/:usn" element={<DashBoardUSN/>}/>   
      </Routes>
-     <Footer/>
+     <Footer/> 
     </div>
   )
 }

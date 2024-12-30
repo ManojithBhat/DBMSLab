@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link,useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const {usn} = useParams();
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get('/view/profile', {
+        const response = await axios.get(`/view/profile/${usn}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
         });
         setUser(response.data.data);
@@ -81,18 +81,6 @@ const Dashboard = () => {
           </tbody>
         </table>
       </div>
-
-      {/* Admin Button */}
-    {user.role === 'admin' && (
-      <div className="text-right mt-6">
-        <button
-          onClick={() => navigate('/addevent')}
-          className="px-6 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600"
-        >
-          Add Event
-        </button>
-      </div>
-    )}
     </div>
   );
 };

@@ -17,9 +17,9 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axiosInstance.post('/auth/login', credentials);
+      const { data } = await axiosInstance.post('/auth/counsellor/login', credentials);
       login(data.data.accessToken);
-      window.location.href = '/profile';
+      window.location.href = '/profile/counsellor';
     } catch (error) {
       console.error('Login failed', error);
     }
@@ -60,18 +60,7 @@ const Login = () => {
             Log In
           </button>
         </form>
-        <p className="text-center text-gray-600 mt-6">
-          Don't have an account?{' '}
-          <a href="/signup" className="text-blue-500 font-semibold hover:underline">
-            Sign up
-          </a>
-        </p>
-        <p className="text-center text-gray-600 mt-6">
-         
-          <a href="/counsellor/login" className="text-blue-500 font-semibold hover:underline">
-            Counsellor login
-          </a>
-        </p>
+        
       </div>
     </div>
   );

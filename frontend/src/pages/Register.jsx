@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../api/axiosInstance';
 
@@ -14,10 +13,11 @@ const departments = [
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
-    fullName: '',
+    username: '',
     department: '',
     poc: '',
     counsellor: '',
+    role:'',
     nssVolunteer: '',
   });
 
@@ -37,10 +37,17 @@ export default function RegisterPage() {
     setError('');
     setSuccess(false);
 
+    if(formData.nssVolunteer === 'yes') {
+      formData.role = 'volunteer'
+    }else if(formData.nssVolunteer==='no'){
+      formData.role = 'user'
+    }
+
+
     try {
       const response = await axiosInstance.post('/auth/register',formData);
-
-      if (response.status === 201) {
+      console.log(response);      
+      if (response.status === 200) {
         setSuccess(true);
         setFormData({
           username: '',
@@ -48,8 +55,9 @@ export default function RegisterPage() {
           poc: '',
           counsellor: '',
           nssVolunteer: '',
+          role:''
         });
-        navigate('/dashboard');
+        navigate('/profile');
       }
     } catch (err) {
       setError('An error occurred. Please try again.');
@@ -68,14 +76,14 @@ export default function RegisterPage() {
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700">
                 Full Name
               </label>
               <div className="mt-1">
                 <input
                   type="text"
-                  name="fullName"
-                  id="fullName"
+                  name="username"
+                  id="username"
                   required
                   className="focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                   value={formData.username}
@@ -108,16 +116,16 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label htmlFor="counsellorId" className="block text-sm font-medium text-gray-700">
-                Counsellor ID
+              <label htmlFor="counsellor" className="block text-sm font-medium text-gray-700">
+                counsellor Id
               </label>
               <div className="mt-1">
                 <input
                   type="text"
-                  name="counsellorId"
-                  id="counsellorId"
+                  name="counsellor"
+                  id="counsellor"
                   required
-                  className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
+                  className="focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                   value={formData.counsellor}
                   onChange={handleChange}
                 />

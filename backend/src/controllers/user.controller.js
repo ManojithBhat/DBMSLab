@@ -95,7 +95,7 @@ This route will be asking for the complete details of the user and adding in the
 */
 const register = AsyncHandler(async(req,res)=> {
     const { username, department, poc, role, counsellor } = req.body;
-
+    console.log(username,department,poc,role,counsellor);
     // Validate that required fields are provided in the request body
     if ([username, department, role, counsellor].some(field => !field)) {
         throw new ApiError(400, "All fields are required ");
@@ -130,13 +130,12 @@ const register = AsyncHandler(async(req,res)=> {
     }
 
     // Update user details
+    console.log(pocId)
     user.username = username;
     user.department = department;
     user.poc = pocId._id || null;  
     user.counsellorId = counsellorId._id;  
-    user.role = role;
-
-    //console.log(user.poc, user.counsellorId);  
+    user.role = role;  
 
     await user.save({ validateBeforeSave:true });
 
@@ -267,7 +266,8 @@ const refreshAccessToken = AsyncHandler(async(req,res)=>{
 
 
 const getUserProfile = AsyncHandler(async (req, res) => {
-    const usn = req.user.usn; // Assuming the user's `usn` is available in `req.user`
+    const usn = req.user.usn;
+    // Assuming the user's `usn` is available in `req.user`
     
     if (!usn) {
         throw new ApiError(400, "USN is missing");
@@ -293,12 +293,39 @@ const getUserProfile = AsyncHandler(async (req, res) => {
         throw new ApiError(404, "User not found");
     }
 
-
-
     res.status(200).json(new ApiResponse(200, user, "User fetched successfully"));
 });
 
-export default getUserProfile;
+const getProfile = AsyncHandler(async (req, res) => {
+     // Assuming the user's `usn` is available in `req.user`
+     const {usn}= req.params; 
+    
+    if (!usn) {
+        throw new ApiError(400, "USN is missing");
+    }
+
+    // Find the user by their USN and populate the events they participated in
+    const user = await User.findOne({ usn })
+        .populate({
+            path: "participated",
+            select: "eventName date location description", 
+        })
+        .populate({
+            path:"poc",
+            select:"pocNumber pocName"
+        })
+        .populate({
+            path:"counsellorId",
+            select:"username department email"
+        })
+        .exec();
+
+    if (!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    res.status(200).json(new ApiResponse(200, user, "User fetched successfully"));
+});
 
 
 
@@ -308,5 +335,6 @@ export {
     loginUser,
     logoutUser,
     getUserProfile,
-    refreshAccessToken
+    refreshAccessToken,
+    getProfile
 }

@@ -230,12 +230,11 @@ const getCounsellorProfile = AsyncHandler(async (req, res) => {
             counsellor,
             students,
         }
-
             res.status(200)
                 .json(new ApiResponse(200, response, "User fetched successfully"))
-        })
+})
 
-
+    
     export {
         registerCounsellor,
         loginCounsellor,

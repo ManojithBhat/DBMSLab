@@ -25,15 +25,15 @@ const AddEvent = () => {
     setError('');
 
     try {
-      const { data } = await axiosInstance.post('/event/addevent', eventData, {
+      const response = await axiosInstance.post('/event/addevent', eventData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // Ensure the token is included
         },
       });
-
-      if (data.status === 201) {
+      if (response.data.statusCode === 200) {
         // On success, navigate to the event's detail page
-        navigate(`/events/view/${data.data._id}`);
+
+        navigate(`/events/view/${response.data.data._id}`);
       }
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to create event');

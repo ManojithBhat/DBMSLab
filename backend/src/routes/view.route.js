@@ -1,6 +1,6 @@
 import { Router } from "express";
 //put js at the end whicle importing
-import {getUserProfile} from "../controllers/user.controller.js";
+import {getUserProfile,getProfile} from "../controllers/user.controller.js";
 import { counsellorVerifyJWT } from "../middleware/counsellorauth.middleware.js";
 import { verifyJWT } from "../middleware/auth.middleware.js";
 import { getCounsellorProfile } from "../controllers/counsellor.controller.js";
@@ -9,5 +9,6 @@ const router = Router();
 
 router.get('/profile',verifyJWT,getUserProfile);
 router.get('/counsellor/profile',counsellorVerifyJWT,getCounsellorProfile);
+router.get('/profile/:id',verifyJWT,counsellorVerifyJWT,getProfile);
 
 export default router;

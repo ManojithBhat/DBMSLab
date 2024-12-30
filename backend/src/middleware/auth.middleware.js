@@ -10,7 +10,7 @@ export const verifyJWT = AsyncHandler(async(req,res,next)=>{
 
     try{
         const token = req.cookies?.accessToken || req.headers("Authorization")?.replace("Bearer ","");
-        
+
         //401 - lacks authentication
         if(!token){
             throw new ApiError(401,"Unauthorized request");
@@ -19,12 +19,12 @@ export const verifyJWT = AsyncHandler(async(req,res,next)=>{
         const decodeToken = jwt.verify(token,process.env.ACCESS_TOKEN_SECRET);
         const email = decodeToken?.email;
         const user = await User.findOne({email}).select("-password -refreshToken");
-        console.log(user);
         if(!user){
             throw new ApiError(404,"Invalid Access Token");
         }
 
         //it is a middleware so we have to pass the user to the next middleware 
+ 
         req.user = user;
         next();
     }catch(err){

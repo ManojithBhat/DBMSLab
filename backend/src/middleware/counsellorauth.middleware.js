@@ -28,6 +28,6 @@ export const counsellorVerifyJWT = AsyncHandler(async(req,res,next)=>{
         req.user = user;
         next();
     }catch(err){
-        throw new ApiError(401,"Invalid access token")
+        throw new ApiError(401,"Invalid access token");
     }
 })
