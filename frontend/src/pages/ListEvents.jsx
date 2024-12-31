@@ -48,7 +48,7 @@ const EventsPage = () => {
             {events.map((event) => (
               <tr key={event._id} className="hover:bg-gray-50">
                 <td className="px-4 py-4 whitespace-nowrap">
-                  <Link to={`/list-events/${event._id}`} className="text-blue-600 hover:text-blue-800 font-medium">
+                  <Link to={`/events/view/${event._id}`} className="text-blue-600 hover:text-blue-800 font-medium">
                     {event.eventName}
                   </Link>
                 </td>

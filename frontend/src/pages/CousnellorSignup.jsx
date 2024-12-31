@@ -12,7 +12,7 @@ const departments = [
 ];
 
 export default function CounsellorSignup() {
-  const router = useNavigate();
+  
 
   const [username, setUsername] = useState('');
   const [department, setDepartment] = useState('');

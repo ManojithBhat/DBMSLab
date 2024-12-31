@@ -132,10 +132,14 @@ const register = AsyncHandler(async(req,res)=> {
     // Update user details
     console.log(pocId)
     user.username = username;
-    user.department = department;
-    user.poc = pocId._id || null;  
+    user.department = department; 
     user.counsellorId = counsellorId._id;  
-    user.role = role;  
+    user.role = role; 
+    user.poc = null;
+    
+    if(!pocId){
+        user.poc = pocId._id; 
+    }
 
     await user.save({ validateBeforeSave:true });
 
@@ -327,7 +331,22 @@ const getProfile = AsyncHandler(async (req, res) => {
     res.status(200).json(new ApiResponse(200, user, "User fetched successfully"));
 });
 
+const checkAdmin = AsyncHandler(async (req, res) => {
+    const usn = req.user.usn;
+    // Assuming the user's `usn` is available in `req.user`
+    
+    if (!usn) {
+        throw new ApiError(400, "USN is missing");
+    }
 
+    const user = await User.findOne({ usn })
+
+    if (!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    res.status(200).json(new ApiResponse(200, user.role, "User fetched successfully"));
+});
 
 export {
     register,
@@ -336,5 +355,6 @@ export {
     logoutUser,
     getUserProfile,
     refreshAccessToken,
-    getProfile
+    getProfile,
+    checkAdmin
 }

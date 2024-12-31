@@ -19,7 +19,6 @@ const EventDetailsPage = () => {
     const fetchEventDetails = async () => {
         try {
             const response = await axiosInstance.get(`/event/events/${eventId}`);
-            console.log(eventId)
             setEvent(response.data.data);
             setLoading(false);
         } catch (err) {

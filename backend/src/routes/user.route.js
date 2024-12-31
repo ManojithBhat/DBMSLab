@@ -1,6 +1,6 @@
 import { Router } from "express";
 //put js at the end whicle importing
-import {register, registerUser,loginUser,logoutUser} from "../controllers/user.controller.js";
+import {register, registerUser,loginUser,logoutUser, checkAdmin} from "../controllers/user.controller.js";
 import { verifyJWT } from "../middleware/auth.middleware.js";
 
 const router = Router();
@@ -14,6 +14,7 @@ Field should contain : Name, departement, Counsellor -  */
 router.post('/register',verifyJWT,register); 
 router.post('/login',loginUser);
 router.post('/logout',verifyJWT,logoutUser);
+router.get('/check-admin',verifyJWT,checkAdmin);
 
 
 export default router;

@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axiosInstance from '../api/axiosInstance';
 
 const EventDetailsPage = () => {
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [user,setUser] = useState(null);
   const { eventId } = useParams();
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchEventDetails = async () => {
       try {
         const response = await axiosInstance.get(`/event/events/${eventId}`);
-        console.log(response);
         setEvent(response.data.data);
         setLoading(false);
       } catch (err) {
@@ -21,8 +24,30 @@ const EventDetailsPage = () => {
       }
     };
 
+
+    const checkAdmin = async () =>{
+      try{
+        const response = await axiosInstance.get('/auth/check-admin');
+        setUser(response.data.data);
+        setLoading(false);
+      }
+      catch(err){
+        setError('Failed to fetch user details');
+        setLoading(false);
+      }
+    }
     fetchEventDetails();
-  }, [eventId]);
+    checkAdmin();
+  }, [eventId, user]);
+
+  const handleDeleteEvent = async () => {
+    try {
+      await axiosInstance.delete(`/event/deleteEvent/${eventId}`);
+      navigate('/'); // Redirect to homepage after deletion
+    } catch (err) {
+      setError('Failed to delete event');
+    }
+  };
 
   if (loading) {
     return <div className="flex justify-center items-center h-screen">Loading...</div>;
@@ -81,6 +106,48 @@ const EventDetailsPage = () => {
           </table>
         </div>
       </div>
+
+      {/* Admin delete button */}
+      {user === 'admin' && (
+        <div className="text-center mt-6">
+          <button
+            onClick={() => setShowDeleteConfirmation(true)}
+            className="px-6 py-2 bg-red-600 text-white font-semibold rounded-lg"
+          >
+            Delete Event
+          </button>
+
+          <button 
+            onClick={() => navigate(`/add-volunteers/${eventId}`)}
+            className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg ml-10"
+          >
+            Add Volunteers
+          </button>
+        </div>
+      )}
+
+      {/* Delete confirmation dialog */}
+      {showDeleteConfirmation && (
+        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h3 className="text-xl font-semibold mb-4">Are you sure you want to delete this event?</h3>
+            <div className="flex justify-between">
+              <button
+                onClick={() => setShowDeleteConfirmation(false)}
+                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDeleteEvent}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg"
+              >
+                Yes, Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

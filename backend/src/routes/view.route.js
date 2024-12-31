@@ -11,4 +11,5 @@ router.get('/profile',verifyJWT,getUserProfile);
 router.get('/counsellor/profile',counsellorVerifyJWT,getCounsellorProfile);
 router.get('/profile/:id',verifyJWT,counsellorVerifyJWT,getProfile);
 
+
 export default router;

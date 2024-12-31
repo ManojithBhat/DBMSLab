@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Routes,Route } from 'react-router-dom'
 //components 
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/NavBar';
+import CheckRoutes from './components/checkRoutes';
 
 //pages 
 import SignupPage from './pages/Signup'
@@ -43,6 +44,7 @@ function App() {
       <Route path="/list-events" element = {<ListEvents/>}/>
       <Route path="/add-volunteers/:eventId" element={<AddVolunteers/>}/> 
       <Route path="/students/:usn" element={<DashBoardUSN/>}/>   
+      <Route path='/check-route' element={<CheckRoutes/>}/>
      </Routes>
      <Footer/> 
     </div>

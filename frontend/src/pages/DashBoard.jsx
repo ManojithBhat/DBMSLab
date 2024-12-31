@@ -14,6 +14,7 @@ const Dashboard = () => {
         const response = await axios.get('/view/profile', {
           headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
         });
+        console.log(response.data.data);
         setUser(response.data.data);
       } catch (err) {
         console.error(err);
