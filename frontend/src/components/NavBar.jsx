@@ -16,16 +16,25 @@ const Navbar = () => {
         {user ? (
           <div className="flex items-center">
             <div className="mr-4">
-              <Link to='/profile' className="hover:text-blue-400">Dashboard</Link>
+              <Link to="/profile" className="hover:text-blue-400">
+                Dashboard
+              </Link>
             </div>
-            <button onClick={logout} className="bg-red-600 px-3 py-1 rounded hover:bg-red-700">
+            <button
+              onClick={logout}
+              className="bg-red-600 px-3 py-1 rounded hover:bg-red-700"
+            >
               Logout
             </button>
           </div>
         ) : (
           <div>
-            <Link to="/login" className="mr-4 hover:text-blue-400">Login</Link>
-            <Link to="/signup" className="hover:text-blue-400">Signup</Link>
+            <Link to="/login" className="mr-4 hover:text-blue-400">
+              Login
+            </Link>
+            <Link to="/signup" className="hover:text-blue-400">
+              Signup
+            </Link>
           </div>
         )}
       </div>

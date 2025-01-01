@@ -38,10 +38,11 @@ const AddEvent = () => {
     } catch (error) {
       let errorMessage = 'An unknown error occurred. Please try again.';
       if (error.response?.data) {
-        const matchedMessage = error.response.data.match(/Error:\s(.*?)<br>/)?.[1];
-         errorMessage = matchedMessage || errorMessage;
+        const matchedMessage =
+          error.response.data.match(/Error:\s(.*?)<br>/)?.[1];
+        errorMessage = matchedMessage || errorMessage;
       }
-  
+
       console.error(errorMessage);
       setError(errorMessage);
     } finally {
@@ -55,7 +56,10 @@ const AddEvent = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700" htmlFor="eventName">
+          <label
+            className="block text-sm font-medium text-gray-700"
+            htmlFor="eventName"
+          >
             Event Name
           </label>
           <input
@@ -70,7 +74,10 @@ const AddEvent = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700" htmlFor="description">
+          <label
+            className="block text-sm font-medium text-gray-700"
+            htmlFor="description"
+          >
             Description
           </label>
           <textarea
@@ -85,7 +92,10 @@ const AddEvent = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700" htmlFor="location">
+          <label
+            className="block text-sm font-medium text-gray-700"
+            htmlFor="location"
+          >
             Location
           </label>
           <input
@@ -100,7 +110,10 @@ const AddEvent = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700" htmlFor="date">
+          <label
+            className="block text-sm font-medium text-gray-700"
+            htmlFor="date"
+          >
             Date
           </label>
           <input
@@ -115,7 +128,10 @@ const AddEvent = () => {
         </div>
 
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700" htmlFor="activityPoints">
+          <label
+            className="block text-sm font-medium text-gray-700"
+            htmlFor="activityPoints"
+          >
             Activity Points
           </label>
           <input

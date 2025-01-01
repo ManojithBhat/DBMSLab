@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import axiosInstance from '../api/axiosInstance';
 
 const AuthContext = createContext();
@@ -25,7 +25,6 @@ export const AuthProvider = ({ children }) => {
       console.error('Logout failed', err);
     }
   };
-  
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>

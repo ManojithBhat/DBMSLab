@@ -17,7 +17,7 @@ export default function RegisterPage() {
     department: '',
     poc: '',
     counsellor: '',
-    role:'',
+    role: '',
     nssVolunteer: '',
   });
 
@@ -37,16 +37,15 @@ export default function RegisterPage() {
     setError('');
     setSuccess(false);
 
-    if(formData.nssVolunteer === 'yes') {
-      formData.role = 'volunteer'
-    }else if(formData.nssVolunteer==='no'){
-      formData.role = 'user'
+    if (formData.nssVolunteer === 'yes') {
+      formData.role = 'volunteer';
+    } else if (formData.nssVolunteer === 'no') {
+      formData.role = 'user';
     }
 
-
     try {
-      const response = await axiosInstance.post('/auth/register',formData);
-      console.log(response);      
+      const response = await axiosInstance.post('/auth/register', formData);
+      console.log(response);
       if (response.status === 200) {
         setSuccess(true);
         setFormData({
@@ -55,7 +54,7 @@ export default function RegisterPage() {
           poc: '',
           counsellor: '',
           nssVolunteer: '',
-          role:''
+          role: '',
         });
         navigate('/profile');
       }
@@ -69,14 +68,19 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Register</h2>
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          Register
+        </h2>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Full Name
               </label>
               <div className="mt-1">
@@ -93,7 +97,10 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label htmlFor="department" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="department"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Department
               </label>
               <div className="mt-1">
@@ -116,7 +123,10 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label htmlFor="counsellor" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="counsellor"
+                className="block text-sm font-medium text-gray-700"
+              >
                 counsellor Id
               </label>
               <div className="mt-1">
@@ -133,7 +143,10 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label htmlFor="nssVolunteer" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="nssVolunteer"
+                className="block text-sm font-medium text-gray-700"
+              >
                 NSS Volunteer
               </label>
               <div className="mt-1">
@@ -154,7 +167,10 @@ export default function RegisterPage() {
 
             {formData.nssVolunteer === 'yes' && (
               <div>
-                <label htmlFor="poc" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="poc"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   POC
                 </label>
                 <div className="mt-1">
@@ -189,9 +205,7 @@ export default function RegisterPage() {
           </form>
 
           {error && (
-            <div className="mt-4 text-center text-sm text-red-600">
-              {error}
-            </div>
+            <div className="mt-4 text-center text-sm text-red-600">{error}</div>
           )}
 
           {success && (

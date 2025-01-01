@@ -13,7 +13,9 @@ const CounsellorDashboard = () => {
     const fetchUser = async () => {
       try {
         const response = await axios.get('/view/counsellor/profile', {
-          headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
         });
         const { counsellor, students } = response.data.data;
         setCounsellor(counsellor);
@@ -33,15 +35,25 @@ const CounsellorDashboard = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold text-center mb-6">Counsellor Dashboard</h1>
-      
+      <h1 className="text-3xl font-bold text-center mb-6">
+        Counsellor Dashboard
+      </h1>
+
       {/* Counsellor Information */}
       <div className="bg-white shadow rounded-lg p-6 mb-6">
         <h2 className="text-xl font-semibold mb-4">Counsellor Profile</h2>
-        <p><strong>Name:</strong> {counsellor.username}</p>
-        <p><strong>Email:</strong> {counsellor.email}</p>
-        <p><strong>Department:</strong> {counsellor.department}</p>
-        <p><strong>Code:</strong> {counsellor.code}</p>
+        <p>
+          <strong>Name:</strong> {counsellor.username}
+        </p>
+        <p>
+          <strong>Email:</strong> {counsellor.email}
+        </p>
+        <p>
+          <strong>Department:</strong> {counsellor.department}
+        </p>
+        <p>
+          <strong>Code:</strong> {counsellor.code}
+        </p>
       </div>
 
       {/* Students Information */}
@@ -55,9 +67,15 @@ const CounsellorDashboard = () => {
                 className="flex justify-between items-center bg-gray-100 p-4 rounded-md"
               >
                 <div>
-                  <p><strong>Name:</strong> {student.name}</p>
-                  <p><strong>Email:</strong> {student.email}</p>
-                  <p><strong>USN:</strong> {student.usn}</p>
+                  <p>
+                    <strong>Name:</strong> {student.name}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {student.email}
+                  </p>
+                  <p>
+                    <strong>USN:</strong> {student.usn}
+                  </p>
                 </div>
                 <Link
                   to={`/students/${student.usn}`}

@@ -21,7 +21,11 @@ axiosInstance.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        const { data } = await axios.post('/api/accessToken', {}, { withCredentials: true });
+        const { data } = await axios.post(
+          '/api/accessToken',
+          {},
+          { withCredentials: true }
+        );
         localStorage.setItem('accessToken', data.accessToken);
         axiosInstance.defaults.headers.Authorization = `Bearer ${data.accessToken}`;
         return axiosInstance(originalRequest);

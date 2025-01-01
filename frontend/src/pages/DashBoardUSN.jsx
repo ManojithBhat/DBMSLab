@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Link,useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const {usn} = useParams();
+  const { usn } = useParams();
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(`/view/profile/${usn}`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
         });
         setUser(response.data.data);
       } catch (err) {
@@ -34,16 +36,28 @@ const Dashboard = () => {
       <div className="bg-white shadow rounded-lg p-6 mb-6">
         <h2 className="text-2xl font-semibold mb-4">User Details</h2>
         <div className="grid grid-cols-2 gap-4">
-          <p><span className="font-medium">Username:</span> {user.username}</p>
-          <p><span className="font-medium">USN:</span> {user.usn}</p>
-          <p><span className="font-medium">Email:</span> {user.email}</p>
-          <p><span className="font-medium">Department:</span> {user.department}</p>
-          <p><span className="font-medium">Joined On:</span> {new Date(user.createdAt).toLocaleDateString()}</p>
-          <p><span className="font-medium">Role:</span> {user.role}</p>
+          <p>
+            <span className="font-medium">Username:</span> {user.username}
+          </p>
+          <p>
+            <span className="font-medium">USN:</span> {user.usn}
+          </p>
+          <p>
+            <span className="font-medium">Email:</span> {user.email}
+          </p>
+          <p>
+            <span className="font-medium">Department:</span> {user.department}
+          </p>
+          <p>
+            <span className="font-medium">Joined On:</span>{' '}
+            {new Date(user.createdAt).toLocaleDateString()}
+          </p>
+          <p>
+            <span className="font-medium">Role:</span> {user.role}
+          </p>
           <p>
             <span className="font-medium">Counsellor:</span>{' '}
-           
-              {user.counsellorId.username}
+            {user.counsellorId.username}
           </p>
         </div>
       </div>
@@ -63,7 +77,9 @@ const Dashboard = () => {
           <tbody>
             {user.participated.map((event) => (
               <tr key={event._id} className="hover:bg-gray-50">
-                <td className="border border-gray-200 p-2">{event.eventName}</td>
+                <td className="border border-gray-200 p-2">
+                  {event.eventName}
+                </td>
                 <td className="border border-gray-200 p-2">
                   {new Date(event.date).toLocaleDateString()}
                 </td>

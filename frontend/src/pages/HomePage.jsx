@@ -31,19 +31,23 @@ const HomePage = () => {
             {[
               {
                 title: 'Event Tracking',
-                description: 'Monitor participation in NSS RVCE events with ease.',
+                description:
+                  'Monitor participation in NSS RVCE events with ease.',
               },
               {
                 title: 'Activity Points',
-                description: 'Track and update your activity points automatically.',
+                description:
+                  'Track and update your activity points automatically.',
               },
               {
                 title: 'Counselor Access',
-                description: 'Share your progress with your assigned counselor.',
+                description:
+                  'Share your progress with your assigned counselor.',
               },
               {
                 title: 'Progress Analytics',
-                description: 'Visualize your growth and achievements effortlessly.',
+                description:
+                  'Visualize your growth and achievements effortlessly.',
               },
             ].map((feature, index) => (
               <div
@@ -68,7 +72,10 @@ const HomePage = () => {
               { value: '50+', label: 'Events Per Year' },
               { value: '10,000+', label: 'Activity Points Awarded' },
             ].map((stat, index) => (
-              <div key={index} className="bg-white text-gray-800 p-8 rounded-lg shadow-lg">
+              <div
+                key={index}
+                className="bg-white text-gray-800 p-8 rounded-lg shadow-lg"
+              >
                 <h3 className="text-5xl font-extrabold mb-4">{stat.value}</h3>
                 <p className="text-xl">{stat.label}</p>
               </div>
@@ -80,7 +87,9 @@ const HomePage = () => {
       {/* Recent Events Section */}
       <section className="min-h-screen bg-gray-900 text-gray-100 flex items-center">
         <div className="container mx-auto px-6">
-          <h2 className="text-4xl font-bold text-center mb-12">Recent Events</h2>
+          <h2 className="text-4xl font-bold text-center mb-12">
+            Recent Events
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
