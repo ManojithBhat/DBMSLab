@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 const HomePage = () => {
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
       <section className="min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 text-white flex items-center justify-center">
         <div className="text-center px-6">
           <h1 className="text-5xl md:text-6xl font-extrabold mb-6">

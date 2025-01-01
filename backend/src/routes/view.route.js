@@ -9,7 +9,7 @@ const router = Router();
 
 router.get('/profile',verifyJWT,getUserProfile);
 router.get('/counsellor/profile',counsellorVerifyJWT,getCounsellorProfile);
-router.get('/profile/:id',verifyJWT,counsellorVerifyJWT,getProfile);
+router.get('/profile/:usn',counsellorVerifyJWT,getProfile);
 
 
 export default router;

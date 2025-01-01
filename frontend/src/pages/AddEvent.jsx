@@ -35,8 +35,15 @@ const AddEvent = () => {
 
         navigate(`/events/view/${response.data.data._id}`);
       }
-    } catch (err) {
-      setError(err.response?.data?.message || 'Failed to create event');
+    } catch (error) {
+      let errorMessage = 'An unknown error occurred. Please try again.';
+      if (error.response?.data) {
+        const matchedMessage = error.response.data.match(/Error:\s(.*?)<br>/)?.[1];
+         errorMessage = matchedMessage || errorMessage;
+      }
+  
+      console.error(errorMessage);
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -45,8 +52,6 @@ const AddEvent = () => {
   return (
     <div className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg">
       <h2 className="text-2xl font-semibold mb-6">Add New Event</h2>
-
-      {error && <div className="text-red-500 text-center mb-4">{error}</div>}
 
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
@@ -134,6 +139,7 @@ const AddEvent = () => {
           </button>
         </div>
       </form>
+      {error && <div className="text-red-500 text-center mb-4">{error}</div>}
     </div>
   );
 };

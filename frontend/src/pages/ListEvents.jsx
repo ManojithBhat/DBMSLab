@@ -32,7 +32,8 @@ const EventsPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">Upcoming Events</h1>
+      
+      <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">Events</h1>
       <div className="overflow-x-auto bg-white shadow-md rounded-lg">
         <table className="min-w-full table-auto">
           <thead className="bg-gray-200">

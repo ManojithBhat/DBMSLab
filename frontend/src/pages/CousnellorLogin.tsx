@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const Login = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const { user, login } = useAuth();
+  const [error,setError] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,7 +22,14 @@ const Login = () => {
       login(data.data.accessToken);
       window.location.href = '/profile/counsellor';
     } catch (error) {
-      console.error('Login failed', error);
+      let errorMessage = 'An unknown error occurred. Please try again.';
+      if (error.response?.data) {
+        const matchedMessage = error.response.data.match(/Error:\s(.*?)<br>/)?.[1];
+         errorMessage = matchedMessage || errorMessage;
+      }
+  
+      console.error('Login failed:', errorMessage);
+      setError(errorMessage);
     }
   };
 
@@ -60,6 +68,7 @@ const Login = () => {
             Log In
           </button>
         </form>
+        {error && <p className="text-red-500 text-sm">{error}</p>}
         
       </div>
     </div>

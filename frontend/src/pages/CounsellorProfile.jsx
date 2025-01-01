@@ -60,7 +60,7 @@ const CounsellorDashboard = () => {
                   <p><strong>USN:</strong> {student.usn}</p>
                 </div>
                 <Link
-                  to={`/students/${student._id}`}
+                  to={`/students/${student.usn}`}
                   className="text-indigo-600 hover:underline"
                 >
                   View Details

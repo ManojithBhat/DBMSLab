@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axiosInstance from '../api/axiosInstance';
 
 const EventDetailsPage = () => {
@@ -35,8 +35,15 @@ const EventDetailsPage = () => {
             await axiosInstance.post(`/event/addVolunteer/${eventId}`, { usn: newVolunteerUSN });
             setNewVolunteerUSN('');
             fetchEventDetails(); // Refresh event details
-        } catch (err) {
-            setAddVolunteerError('Failed to add volunteer');
+        } catch (error) {
+            let errorMessage = 'An unknown error occurred. Please try again.';
+            if (error.response?.data) {
+              const matchedMessage = error.response.data.match(/Error:\s(.*?)<br>/)?.[1];
+               errorMessage = matchedMessage || errorMessage;
+            }
+        
+            console.error(errorMessage);
+            setAddVolunteerError(errorMessage);
         } finally {
             setAddingVolunteer(false);
         }
@@ -47,8 +54,15 @@ const EventDetailsPage = () => {
         try {
             await axiosInstance.delete(`/event/removeVolunteer/${eventId}`, { data: { usn: volunteerUSN } });
             fetchEventDetails(); // Refresh event details
-        } catch (err) {
-            setDeleteVolunteerError('Failed to delete volunteer');
+        } catch (error) {
+            let errorMessage = 'An unknown error occurred. Please try again.';
+            if (error.response?.data) {
+              const matchedMessage = error.response.data.match(/Error:\s(.*?)<br>/)?.[1];
+               errorMessage = matchedMessage || errorMessage;
+            }
+        
+            console.error('Login failed:', errorMessage);
+            setDeleteVolunteerError(errorMessage);
         }
     };
 
@@ -66,6 +80,7 @@ const EventDetailsPage = () => {
 
     return (
         <div className="container mx-auto px-4 py-8">
+            <Link to={`/events/view/${eventId}`} className="text-blue-600 hover:underline">Back to Events</Link>
             <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">{event.eventName}</h1>
 
             <div className="bg-white shadow-md rounded-lg p-6 mb-6">

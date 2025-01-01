@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axiosInstance from '../api/axiosInstance';
+import { Link } from 'react-router-dom';
 
 const EventDetailsPage = () => {
   const [event, setEvent] = useState(null);
@@ -63,6 +64,7 @@ const EventDetailsPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <Link to={`/list-events`} className="text-blue-600 hover:underline">Back to Events</Link>
       <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">{event.eventName}</h1>
       
       <div className="bg-white shadow-md rounded-lg p-6 mb-6">

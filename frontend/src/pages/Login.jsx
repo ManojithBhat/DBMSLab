@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 const Login = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const { user, login } = useAuth();
+  const [error, setError] = useState('');
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,9 +23,16 @@ const Login = () => {
       login(data.data.accessToken);
       window.location.href = '/profile';
     } catch (error) {
-      console.error('Login failed', error);
+      let errorMessage = 'An unknown error occurred. Please try again.';
+      if (error.response?.data) {
+        const matchedMessage = error.response.data.match(/Error:\s(.*?)<br>/)?.[1];
+         errorMessage = matchedMessage || errorMessage;
+      }
+      console.error('Login failed:', errorMessage);
+      setError(errorMessage);
     }
   };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600">
@@ -53,6 +62,7 @@ const Login = () => {
               onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
             />
           </div>
+         
           <button
             type="submit"
             className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300"
@@ -60,6 +70,7 @@ const Login = () => {
             Log In
           </button>
         </form>
+         {error && <p className="text-red-500 text-sm">{error}</p>}
         <p className="text-center text-gray-600 mt-6">
           Don't have an account?{' '}
           <a href="/signup" className="text-blue-500 font-semibold hover:underline">

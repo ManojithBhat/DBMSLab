@@ -37,8 +37,15 @@ export default function SignupPage() {
       } else {
         setError("Signup failed");
       }
-    } catch (err) {
-      setError("An error occurred. Please try again.");
+    } catch (error) {
+      let errorMessage = 'An unknown error occurred. Please try again.';
+      if (error.response?.data) {
+        const matchedMessage = error.response.data.match(/Error:\s(.*?)<br>/)?.[1];
+         errorMessage = matchedMessage || errorMessage;
+      }
+  
+      console.error('Login failed:', errorMessage);
+      setError(errorMessage);
     }
   };
 

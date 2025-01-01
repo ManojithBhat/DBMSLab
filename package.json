@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "frontend": "cd frontend && npm run dev",
     "backend": "cd backend && npm run dev",
-    "dev": "concurrently \"npm run frontend\" \"npm run backend\""
+    "dev": "concurrently \"npm run frontend\" \"npm run backend\"",
+    "format": "prettier --write .",
+    "format-check": "prettier --check ."
   },
   "author": "",
   "license": "ISC",
@@ -15,5 +17,8 @@
     "concurrently": "^9.1.0",
     "jwt-decode": "^4.0.0",
     "react-icons": "^5.4.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.4.2"
   }
 }
