@@ -99,7 +99,6 @@ const Dashboard = () => {
         </table>
       </div>
 
-      {/* Admin Button */}
       {user.role === 'admin' && (
         <div className="text-right mt-6">
           <button
