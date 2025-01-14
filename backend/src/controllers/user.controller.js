@@ -21,7 +21,7 @@ const generateAccessAndRefreshTokens = async (userId) => {
   } catch (err) {
     throw new ApiError(
       500,
-      'Something went wrong while generating regresh and access tokens'
+      'Something went wrong while generating refresh and access tokens'
     );
   }
 };
@@ -143,7 +143,7 @@ const register = AsyncHandler(async (req, res) => {
   user.role = role;
   user.poc = null;
 
-  if (!pocId) {
+  if ((role === 'volunteer' || role === 'admin') && !pocId) {
     user.poc = pocId._id;
   }
 
