@@ -8,7 +8,7 @@ import CheckRoutes from './components/checkRoutes';
 //pages
 import SignupPage from './pages/Signup';
 import RegisterPage from './pages/Register';
-import Dashboard from './pages/Dashboard';
+import Dashboard from './pages/DashBoard';
 import Login from './pages/Login';
 import CounsellorProfile from './pages/CounsellorProfile';
 import EventDetails from './pages/EventDetails';

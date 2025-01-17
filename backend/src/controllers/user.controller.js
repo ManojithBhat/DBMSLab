@@ -299,7 +299,7 @@ const getUserProfile = AsyncHandler(async (req, res) => {
   const user = await User.findOne({ usn })
     .populate({
       path: 'participated',
-      select: 'eventName date location description',
+      select: 'eventName date location description activityPoints',
     })
     .populate({
       path: 'poc',
@@ -314,7 +314,6 @@ const getUserProfile = AsyncHandler(async (req, res) => {
   if (!user) {
     throw new ApiError(404, 'User not found');
   }
-
   res.status(200).json(new ApiResponse(200, user, 'User fetched successfully'));
 });
 
