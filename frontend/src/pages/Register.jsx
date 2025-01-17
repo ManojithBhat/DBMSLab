@@ -59,161 +59,136 @@ export default function RegisterPage() {
         navigate('/profile');
       }
     } catch (err) {
-      setError('An error occurred. Please try again.');
+      let errorMessage = "An unknown error occurred. Please try again.";
+      if (error.response?.data) {
+        const matchedMessage =
+          error.response.data.match(/Error:\s(.*?)<br>/)?.[1];
+        errorMessage = matchedMessage || errorMessage;
+      }
+      console.error("Signup failed:", errorMessage);
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Register
-        </h2>
-      </div>
-
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700"
-              >
+    <div className="min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-lg">
+        <h2 className="text-center text-3xl font-extrabold text-gray-900">Register</h2>
+        <p className="text-center text-sm text-gray-600">
+          Join us to be part of the NSS community and make a difference.
+        </p>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          <div className="rounded-md shadow-sm -space-y-px">
+            <div className="mb-4">
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700">
                 Full Name
               </label>
-              <div className="mt-1">
-                <input
-                  type="text"
-                  name="username"
-                  id="username"
-                  required
-                  className="focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                  value={formData.username}
-                  onChange={handleChange}
-                />
-              </div>
+              <input
+                type="text"
+                name="username"
+                id="username"
+                required
+                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                placeholder="Enter your full name"
+                value={formData.username}
+                onChange={handleChange}
+              />
             </div>
 
-            <div>
-              <label
-                htmlFor="department"
-                className="block text-sm font-medium text-gray-700"
-              >
+            <div className="mb-4">
+              <label htmlFor="department" className="block text-sm font-medium text-gray-700">
                 Department
               </label>
-              <div className="mt-1">
+              <select
+                name="department"
+                id="department"
+                required
+                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 bg-white placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                value={formData.department}
+                onChange={handleChange}
+              >
+                <option value="">Select Department</option>
+                {departments.map((dept) => (
+                  <option key={dept.value} value={dept.value}>
+                    {dept.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="counsellor" className="block text-sm font-medium text-gray-700">
+                Counsellor ID
+              </label>
+              <input
+                type="text"
+                name="counsellor"
+                id="counsellor"
+                required
+                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                placeholder="Enter your counsellor ID"
+                value={formData.counsellor}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="nssVolunteer" className="block text-sm font-medium text-gray-700">
+                NSS Volunteer
+              </label>
+              <select
+                name="nssVolunteer"
+                id="nssVolunteer"
+                required
+                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 bg-white placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                value={formData.nssVolunteer}
+                onChange={handleChange}
+              >
+                <option value="">Select Option</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+
+            {formData.nssVolunteer === 'yes' && (
+              <div className="mb-4">
+                <label htmlFor="poc" className="block text-sm font-medium text-gray-700">
+                  POC
+                </label>
                 <select
-                  name="department"
-                  id="department"
+                  name="poc"
+                  id="poc"
                   required
-                  className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
-                  value={formData.department}
+                  className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 bg-white placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  value={formData.poc}
                   onChange={handleChange}
                 >
-                  <option value="">Select Department</option>
-                  {departments.map((dept) => (
-                    <option key={dept.value} value={dept.value}>
-                      {dept.label}
+                  <option value="">Select POC</option>
+                  {[...Array(10)].map((_, i) => (
+                    <option key={i} value={i + 1}>
+                      {i + 1}
                     </option>
                   ))}
                 </select>
               </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="counsellor"
-                className="block text-sm font-medium text-gray-700"
-              >
-                counsellor Id
-              </label>
-              <div className="mt-1">
-                <input
-                  type="text"
-                  name="counsellor"
-                  id="counsellor"
-                  required
-                  className="focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                  value={formData.counsellor}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="nssVolunteer"
-                className="block text-sm font-medium text-gray-700"
-              >
-                NSS Volunteer
-              </label>
-              <div className="mt-1">
-                <select
-                  name="nssVolunteer"
-                  id="nssVolunteer"
-                  required
-                  className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
-                  value={formData.nssVolunteer}
-                  onChange={handleChange}
-                >
-                  <option value="">Select Option</option>
-                  <option value="yes">Yes</option>
-                  <option value="no">No</option>
-                </select>
-              </div>
-            </div>
-
-            {formData.nssVolunteer === 'yes' && (
-              <div>
-                <label
-                  htmlFor="poc"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  POC
-                </label>
-                <div className="mt-1">
-                  <select
-                    name="poc"
-                    id="poc"
-                    required
-                    className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
-                    value={formData.poc}
-                    onChange={handleChange}
-                  >
-                    <option value="">Select POC</option>
-                    {[...Array(10)].map((_, i) => (
-                      <option key={i} value={i + 1}>
-                        {i + 1}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
             )}
+          </div>
 
-            <div>
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                {isLoading ? 'Registering...' : 'Register'}
-              </button>
-            </div>
-          </form>
+          <div>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              {isLoading ? 'Registering...' : 'Register'}
+            </button>
+          </div>
 
-          {error && (
-            <div className="mt-4 text-center text-sm text-red-600">{error}</div>
-          )}
-
-          {success && (
-            <div className="mt-4 text-center text-sm text-green-600">
-              Registration successful!
-            </div>
-          )}
-        </div>
+          {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+          {success && <p className="mt-2 text-sm text-green-600">Registration successful!</p>}
+        </form>
       </div>
     </div>
   );

@@ -45,120 +45,116 @@ export default function SignupPage() {
         errorMessage = matchedMessage || errorMessage;
       }
 
-      console.error('Login failed:', errorMessage);
+      console.error('Signup failed:', errorMessage);
       setError(errorMessage);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-50 via-indigo-100 to-purple-50 flex items-center justify-center">
-      <div className="w-full max-w-lg bg-white rounded-xl shadow-lg p-8 space-y-8">
-        <h2 className="text-3xl font-extrabold text-center text-indigo-700">
-          Create an Account
-        </h2>
-        <p className="text-center text-gray-600">
-          Join us and start your journey!
+    <div className="min-h-screen bg-gradient-to-tr from-blue-100 via-purple-50 to-indigo-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full bg-white p-8 rounded-xl shadow-lg">
+        <h2 className="text-4xl font-bold text-center text-indigo-600 mb-4">Sign Up</h2>
+        <p className="text-center text-gray-500 mb-8">
+          Create an account to join our community
         </p>
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Email
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Email Address
             </label>
             <input
               id="email"
               type="email"
               required
-              className="mt-1 block w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="you@example.com"
+              className="mt-2 block w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
+
           <div>
-            <label
-              htmlFor="usn"
-              className="block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="usn" className="block text-sm font-medium text-gray-700">
               USN
             </label>
             <input
               id="usn"
               type="text"
               required
-              className="mt-1 block w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="Enter your USN"
+              className="mt-2 block w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
               value={usn}
               onChange={(e) => setUSN(e.target.value)}
             />
           </div>
+
           <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
               Password
             </label>
-            <div className="relative">
+            <div className="relative mt-2">
               <input
                 id="password"
                 type={showPassword ? 'text' : 'password'}
                 required
-                className="mt-1 block w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="Enter your password"
+                className="block w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
               <button
                 type="button"
-                className="absolute inset-y-0 right-3 flex items-center"
+                className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-indigo-600"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? '🙈' : '👁️'}
               </button>
             </div>
           </div>
+
           <div>
-            <label
-              htmlFor="confirmPassword"
-              className="block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
               Confirm Password
             </label>
-            <div className="relative">
+            <div className="relative mt-2">
               <input
                 id="confirmPassword"
                 type={showPassword ? 'text' : 'password'}
                 required
-                className="mt-1 block w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="Confirm your password"
+                className="block w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
           </div>
-          {error && <p className="text-red-500 text-sm">{error}</p>}
+
+          {error && <p className="text-sm text-red-500">{error}</p>}
+
           <button
             type="submit"
-            className="w-full py-3 px-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full py-3 px-4 bg-indigo-600 text-white font-semibold rounded-lg shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
-            Sign up
+            Sign Up
           </button>
         </form>
-        <div className="text-center">
+
+        <div className="text-center mt-6">
           <p className="text-gray-600">
             Already have an account?{' '}
             <span
               onClick={() => navigate('/login')}
               className="text-indigo-500 font-medium hover:underline cursor-pointer"
             >
-              Log in
+              Log In
             </span>
           </p>
           <p className="mt-4 text-gray-600">
-            If you are a counsellor,{' '}
+            Are you a counsellor?{' '}
             <span className="text-indigo-500 font-medium hover:underline cursor-pointer">
-              contact the admin
+              Contact Admin
             </span>
-            .
           </p>
         </div>
       </div>
