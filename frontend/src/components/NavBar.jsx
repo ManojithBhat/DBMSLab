@@ -4,7 +4,7 @@ import { useAuth } from './AuthProvider';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
-
+  const isCounsellor = user?._id;
   return (
     <nav className="p-4 bg-gray-800 text-white flex justify-between items-center">
       <h1 className="text-lg font-bold">
@@ -16,7 +16,10 @@ const Navbar = () => {
         {user ? (
           <div className="flex items-center">
             <div className="mr-4">
-              <Link to="/profile" className="hover:text-blue-400">
+              <Link
+                to={isCounsellor ? "/profile/counsellor" : "/profile"}
+                className="hover:text-blue-400"
+              >
                 Dashboard
               </Link>
             </div>

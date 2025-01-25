@@ -73,7 +73,7 @@ const HomePage = () => {
       </section>
 
       {/* Statistics Section */}
-      <section className="py-16 bg-gradient-to-r from-green-400 to-teal-500 text-white">
+      <section className="py-16 bg-gradient-to-r from-blue-400 to-teal-500 text-white">
         <div className="container mx-auto px-6 text-center">
           <h2 className="text-4xl font-bold mb-12">Our Impact</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
