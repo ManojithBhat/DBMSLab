@@ -1,107 +1,102 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import {
-  FaFacebookF,
-  FaTwitter,
-  FaInstagram,
-  FaEnvelope,
-} from 'react-icons/fa';
+import React from "react"
+import { Link } from "react-router-dom"
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white py-8">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div>
-            <h3 className="text-xl font-semibold mb-4">
-              NSS RVCE Event Tracker
-            </h3>
-            <p className="text-gray-400">
-              Empowering students to track their social service journey and grow
-              through active participation.
+    <footer className="border-t border-gray-200 bg-white py-12 md:py-16">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
+          {/* Company Info */}
+          <div className="space-y-4">
+            <h3 className="font-semibold text-gray-900">NSS RVCE Event Tracker</h3>
+            <p className="text-sm text-gray-500 leading-relaxed">
+              Empowering students to track their social service journey and grow through active participation.
             </p>
           </div>
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
-            <ul className="space-y-2">
+          
+          {/* Quick Links */}
+          <div className="space-y-4">
+            <h4 className="font-semibold text-gray-900">Quick Links</h4>
+            <ul className="space-y-3">
               <li>
-                <Link
-                  to="/"
-                  className="text-gray-400 hover:text-white transition duration-300"
-                >
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/events"
-                  className="text-gray-400 hover:text-white transition duration-300"
-                >
-                  Events
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/dashboard"
-                  className="text-gray-400 hover:text-white transition duration-300"
-                >
+                <Link to="/dashboard" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
                   Dashboard
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/about"
-                  className="text-gray-400 hover:text-white transition duration-300"
-                >
-                  About NSS
+                <Link to="/events" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+                  Events
+                </Link>
+              </li>
+              <li>
+                <Link to="/profile" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+                  Profile
+                </Link>
+              </li>
+              <li>
+                <Link to="/reports" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+                  Reports
                 </Link>
               </li>
             </ul>
           </div>
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Contact Us</h4>
-            <p className="text-gray-400">RV College of Engineering</p>
-            <p className="text-gray-400">Mysore Road, Bengaluru - 560059</p>
-            <p className="text-gray-400">Karnataka, India</p>
-            <p className="text-gray-400">Email: nss@rvce.edu.in</p>
+
+          {/* Features */}
+          <div className="space-y-4">
+            <h4 className="font-semibold text-gray-900">Features</h4>
+            <ul className="space-y-3">
+              <li>
+                <Link to="/event-tracking" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+                  Event Tracking
+                </Link>
+              </li>
+              <li>
+                <Link to="/points-system" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+                  Points System
+                </Link>
+              </li>
+              <li>
+                <Link to="/certificates" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+                  Certificates
+                </Link>
+              </li>
+              <li>
+                <Link to="/analytics" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+                  Analytics
+                </Link>
+              </li>
+            </ul>
           </div>
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Follow Us</h4>
-            <div className="flex space-x-4">
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition duration-300"
-              ></a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition duration-300"
-              ></a>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition duration-300"
-              ></a>
-              <a
-                href="mailto:nss@rvce.edu.in"
-                className="text-gray-400 hover:text-white transition duration-300"
-              ></a>
-            </div>
+
+          {/* Contact */}
+          <div className="space-y-4">
+            <h4 className="font-semibold text-gray-900">Contact</h4>
+            <ul className="space-y-3">
+              <li className="text-sm text-gray-500">RV College of Engineering</li>
+              <li className="text-sm text-gray-500">Mysore Road, Bengaluru - 560059</li>
+              <li className="text-sm text-gray-500">Karnataka, India</li>
+              <li>
+                <a
+                  href="mailto:nss@rvce.edu.in"
+                  className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+                >
+                  nss@rvce.edu.in
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
-        <div className="mt-8 pt-8 border-t border-gray-700 text-center">
-          <p className="text-gray-400">
-            &copy; {new Date().getFullYear()} NSS RVCE Event Tracker. All rights
-            reserved.
+
+        {/* Copyright */}
+        <div className="mt-12 pt-8 border-t border-gray-200">
+          <p className="text-sm text-center text-gray-500">
+            Copyright © {new Date().getFullYear()} NSS RVCE. All rights reserved.
           </p>
         </div>
       </div>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer
+

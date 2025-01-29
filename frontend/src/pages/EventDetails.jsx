@@ -116,7 +116,7 @@ const EventDetailsPage = () => {
           </tbody>
         </table>
       </div>
-
+        <div className="border"></div>
       <div>
         <h2 className="text-lg font-medium mb-4">Participants</h2>
         <div className="overflow-x-auto">

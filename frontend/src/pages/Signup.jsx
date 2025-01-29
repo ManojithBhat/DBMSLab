@@ -144,7 +144,6 @@ export default function SignupPage() {
             Sign Up
           </button>
         </form>
-
         <div className="space-y-2 text-center">
           <p className="text-sm text-gray-500">
             Already have an account?{" "}

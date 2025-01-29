@@ -1,48 +1,65 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useAuth } from './AuthProvider';
+import React from "react"
+import { Link } from "react-router-dom"
+import { useAuth } from "./AuthProvider"
 
 const Navbar = () => {
-  const { user, logout } = useAuth();
-  const isCounsellor = user?._id;
+  const { user, logout } = useAuth()
+  const isCounsellor = user?._id
+
   return (
-    <nav className="p-4 bg-gray-800 text-white flex justify-between items-center">
-      <h1 className="text-lg font-bold">
-        <Link to="/" className="hover:text-blue-400">
-          NSS RVCE
-        </Link>
-      </h1>
-      <div className="flex items-center">
-        {user ? (
-          <div className="flex items-center">
-            <div className="mr-4">
+    <header className="border-b border-gray-200">
+      <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
+        <div className="flex items-center space-x-8">
+          <Link to="/" className="font-semibold text-gray-900">
+            NSS RVCE
+          </Link>
+          <div className="hidden md:flex items-center space-x-6">
+            <Link to="/features" className="text-sm text-gray-500 hover:text-gray-900">
+              Features
+            </Link>
+            <Link to="/events" className="text-sm text-gray-500 hover:text-gray-900">
+              Events
+            </Link>
+            <Link to="/about" className="text-sm text-gray-500 hover:text-gray-900">
+              About
+            </Link>
+          </div>
+        </div>
+
+        <div className="flex items-center space-x-4">
+          {user ? (
+            <>
               <Link
                 to={isCounsellor ? "/profile/counsellor" : "/profile"}
-                className="hover:text-blue-400"
+                className="text-sm text-gray-500 hover:text-gray-900"
               >
                 Dashboard
               </Link>
-            </div>
-            <button
-              onClick={logout}
-              className="bg-red-600 px-3 py-1 rounded hover:bg-red-700"
-            >
-              Logout
-            </button>
-          </div>
-        ) : (
-          <div>
-            <Link to="/login" className="mr-4 hover:text-blue-400">
-              Login
-            </Link>
-            <Link to="/signup" className="hover:text-blue-400">
-              Signup
-            </Link>
-          </div>
-        )}
-      </div>
-    </nav>
-  );
-};
+              <button
+                onClick={logout}
+                className="text-sm font-medium px-4 py-2 rounded-md border border-gray-200 hover:bg-gray-50"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="text-sm text-gray-500 hover:text-gray-900">
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="text-sm font-medium px-4 py-2 rounded-md bg-black text-white hover:bg-gray-800"
+              >
+                Sign up
+              </Link>
+            </>
+          )}
+        </div>
+      </nav>
+    </header>
+  )
+}
 
-export default Navbar;
+export default Navbar
+

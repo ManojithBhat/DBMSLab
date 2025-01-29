@@ -100,6 +100,7 @@ const Dashboard = () => {
           </div>
         </div>
 
+          <div className="border"></div>
         {/* Events Table */}
         <div className="space-y-4">
           <h2 className="text-lg font-medium text-gray-900">Participated Events</h2>
