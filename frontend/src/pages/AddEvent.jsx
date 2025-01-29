@@ -1,70 +1,71 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axiosInstance from '../api/axiosInstance';
+import React, { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import axiosInstance from "../api/axiosInstance"
 
 const AddEvent = () => {
   const [eventData, setEventData] = useState({
-    eventName: '',
-    description: '',
-    location: '',
-    date: '',
-    activityPoints: '',
-  });
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+    eventName: "",
+    description: "",
+    location: "",
+    date: "",
+    activityPoints: "",
+  })
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEventData({ ...eventData, [name]: value });
-  };
+    const { name, value } = e.target
+    setEventData({ ...eventData, [name]: value })
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
+    e.preventDefault()
+    setLoading(true)
+    setError("")
 
     try {
-      const response = await axiosInstance.post('/event/addevent', eventData, {
+      const response = await axiosInstance.post("/event/addevent", eventData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // Ensure the token is included
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
-      });
+      })
       if (response.data.statusCode === 200) {
-        navigate(`/events/view/${response.data.data._id}`);
+        navigate(`/events/view/${response.data.data._id}`)
       }
     } catch (error) {
-      let errorMessage = 'An unknown error occurred. Please try again.';
+      let errorMessage = "An unknown error occurred. Please try again."
       if (error.response?.data) {
-        const matchedMessage =
-          error.response.data.match(/Error:\s(.*?)<br>/)?.[1];
-        errorMessage = matchedMessage || errorMessage;
+        const matchedMessage = error.response.data.match(/Error:\s(.*?)<br>/)?.[1]
+        errorMessage = matchedMessage || errorMessage
       }
 
-      console.error(errorMessage);
-      setError(errorMessage);
+      console.error(errorMessage)
+      setError(errorMessage)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   return (
-    <div className="container mx-auto p-8">
-      <div className="max-w-2xl mx-auto bg-white shadow-xl rounded-lg p-8">
-        <h2 className="text-3xl font-semibold text-center text-blue-600 mb-6">
-          Add New Event
-        </h2>
+    <div className="min-h-screen bg-white flex items-center justify-center p-4">
+      <div className="w-full max-w-md space-y-6">
+        <div>
+          <h2 className="text-2xl font-semibold text-gray-900">Add New Event</h2>
+          <p className="mt-2 text-sm text-gray-600">Fill in the details below to create a new event</p>
+        </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="eventName" className="block text-lg font-medium text-gray-700">
+            <label htmlFor="eventName" className="block text-sm font-medium text-gray-900">
               Event Name
             </label>
             <input
               type="text"
               id="eventName"
               name="eventName"
-              className="mt-2 w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 block w-full rounded-md border border-gray-200 px-3 py-2 text-sm placeholder:text-gray-400
+                       focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
               value={eventData.eventName}
               onChange={handleChange}
               required
@@ -72,13 +73,14 @@ const AddEvent = () => {
           </div>
 
           <div>
-            <label htmlFor="description" className="block text-lg font-medium text-gray-700">
+            <label htmlFor="description" className="block text-sm font-medium text-gray-900">
               Description
             </label>
             <textarea
               id="description"
               name="description"
-              className="mt-2 w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 block w-full rounded-md border border-gray-200 px-3 py-2 text-sm placeholder:text-gray-400
+                       focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
               rows="4"
               value={eventData.description}
               onChange={handleChange}
@@ -87,14 +89,15 @@ const AddEvent = () => {
           </div>
 
           <div>
-            <label htmlFor="location" className="block text-lg font-medium text-gray-700">
+            <label htmlFor="location" className="block text-sm font-medium text-gray-900">
               Location
             </label>
             <input
               type="text"
               id="location"
               name="location"
-              className="mt-2 w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 block w-full rounded-md border border-gray-200 px-3 py-2 text-sm placeholder:text-gray-400
+                       focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
               value={eventData.location}
               onChange={handleChange}
               required
@@ -102,14 +105,15 @@ const AddEvent = () => {
           </div>
 
           <div>
-            <label htmlFor="date" className="block text-lg font-medium text-gray-700">
+            <label htmlFor="date" className="block text-sm font-medium text-gray-900">
               Date
             </label>
             <input
               type="date"
               id="date"
               name="date"
-              className="mt-2 w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 block w-full rounded-md border border-gray-200 px-3 py-2 text-sm placeholder:text-gray-400
+                       focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
               value={eventData.date}
               onChange={handleChange}
               required
@@ -117,35 +121,37 @@ const AddEvent = () => {
           </div>
 
           <div>
-            <label htmlFor="activityPoints" className="block text-lg font-medium text-gray-700">
+            <label htmlFor="activityPoints" className="block text-sm font-medium text-gray-900">
               Activity Points
             </label>
             <input
               type="number"
               id="activityPoints"
               name="activityPoints"
-              className="mt-2 w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 block w-full rounded-md border border-gray-200 px-3 py-2 text-sm placeholder:text-gray-400
+                       focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
               value={eventData.activityPoints}
               onChange={handleChange}
               required
             />
           </div>
 
-          <div className="text-center">
-            <button
-              type="submit"
-              className="w-full py-3 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
-              disabled={loading}
-            >
-              {loading ? 'Creating Event...' : 'Create Event'}
-            </button>
-          </div>
-        </form>
+          {error && <p className="text-sm text-red-500">{error}</p>}
 
-        {error && <div className="mt-4 text-center text-red-500">{error}</div>}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full rounded-md bg-black px-3 py-2 text-sm font-medium text-white 
+                     hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2
+                     disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            {loading ? "Creating Event..." : "Create Event"}
+          </button>
+        </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AddEvent;
+export default AddEvent
+

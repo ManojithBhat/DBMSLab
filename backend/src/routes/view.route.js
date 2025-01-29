@@ -10,5 +10,6 @@ const router = Router();
 router.get('/profile', verifyJWT, getUserProfile);
 router.get('/counsellor/profile', counsellorVerifyJWT, getCounsellorProfile);
 router.get('/profile/:usn', counsellorVerifyJWT, getProfile);
+router.get('/admin/profile/:usn',verifyJWT, getProfile);
 
 export default router;

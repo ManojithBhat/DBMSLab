@@ -66,7 +66,7 @@ const registerCounsellor = AsyncHandler(async (req, res) => {
 
   // Fetch the created counsellor without sensitive information
   const createdCounsellor = await Counsellor.findById(counsellor._id).select(
-    '-password -refreshToken'
+    '-password'
   );
 
   if (!createdCounsellor) {
@@ -76,23 +76,12 @@ const registerCounsellor = AsyncHandler(async (req, res) => {
     );
   }
 
-  const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(
-    counsellor._id
-  );
-
-  const options = {
-    httpOnly: true,
-    secure: true,
-  };
-
   return res
     .status(200)
-    .cookie('accessToken', accessToken, options)
-    .cookie('refreshToken', refreshToken, options)
     .json(
       new ApiResponse(
         200,
-        { user: createdCounsellor, accessToken, refreshToken },
+        { user: createdCounsellor },
         'Counsellor Created and LoggedIn in successfully'
       )
     );

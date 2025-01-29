@@ -19,6 +19,7 @@ export default function CounsellorSignup() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,8 +39,9 @@ export default function CounsellorSignup() {
         code,
       });
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         console.log('Counsellor signup successful');
+        setSuccessMessage('Counsellor signup successful');
       } else {
         console.error('Signup failed:', response);
         setError('Signup failed');
@@ -242,6 +244,7 @@ export default function CounsellorSignup() {
             </div>
           </div>
           {error && <p className="text-red-500 text-sm">{error}</p>}
+          {successMessage && <p className="text-green-500 text-sm">{successMessage}</p>}
           <div>
             <button
               type="submit"

@@ -73,15 +73,16 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-center text-3xl font-extrabold text-gray-900">Register</h2>
-        <p className="text-center text-sm text-gray-600">
-          Join us to be part of the NSS community and make a difference.
-        </p>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div className="mb-4">
+    <div className="min-h-screen bg-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-6">
+        <div className="text-center">
+          <h2 className="text-3xl font-semibold text-gray-900">Register</h2>
+          <p className="mt-2 text-sm text-gray-600">Join us to be part of the NSS community and make a difference.</p>
+        </div>
+
+        <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
+          <div className="space-y-4">
+            <div>
               <label htmlFor="username" className="block text-sm font-medium text-gray-700">
                 Full Name
               </label>
@@ -90,14 +91,15 @@ export default function RegisterPage() {
                 name="username"
                 id="username"
                 required
-                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
+                         focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
                 placeholder="Enter your full name"
                 value={formData.username}
                 onChange={handleChange}
               />
             </div>
 
-            <div className="mb-4">
+            <div>
               <label htmlFor="department" className="block text-sm font-medium text-gray-700">
                 Department
               </label>
@@ -105,7 +107,8 @@ export default function RegisterPage() {
                 name="department"
                 id="department"
                 required
-                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 bg-white placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm
+                         focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
                 value={formData.department}
                 onChange={handleChange}
               >
@@ -118,7 +121,7 @@ export default function RegisterPage() {
               </select>
             </div>
 
-            <div className="mb-4">
+            <div>
               <label htmlFor="counsellor" className="block text-sm font-medium text-gray-700">
                 Counsellor ID
               </label>
@@ -127,14 +130,15 @@ export default function RegisterPage() {
                 name="counsellor"
                 id="counsellor"
                 required
-                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
+                         focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
                 placeholder="Enter your counsellor ID"
                 value={formData.counsellor}
                 onChange={handleChange}
               />
             </div>
 
-            <div className="mb-4">
+            <div>
               <label htmlFor="nssVolunteer" className="block text-sm font-medium text-gray-700">
                 NSS Volunteer
               </label>
@@ -142,7 +146,8 @@ export default function RegisterPage() {
                 name="nssVolunteer"
                 id="nssVolunteer"
                 required
-                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 bg-white placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm
+                         focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
                 value={formData.nssVolunteer}
                 onChange={handleChange}
               >
@@ -152,8 +157,8 @@ export default function RegisterPage() {
               </select>
             </div>
 
-            {formData.nssVolunteer === 'yes' && (
-              <div className="mb-4">
+            {formData.nssVolunteer === "yes" && (
+              <div>
                 <label htmlFor="poc" className="block text-sm font-medium text-gray-700">
                   POC
                 </label>
@@ -161,7 +166,8 @@ export default function RegisterPage() {
                   name="poc"
                   id="poc"
                   required
-                  className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 bg-white placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm
+                           focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
                   value={formData.poc}
                   onChange={handleChange}
                 >
@@ -180,9 +186,11 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-black 
+                       hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 disabled:opacity-50 
+                       disabled:cursor-not-allowed transition-colors duration-200"
             >
-              {isLoading ? 'Registering...' : 'Register'}
+              {isLoading ? "Registering..." : "Register"}
             </button>
           </div>
 
@@ -191,5 +199,5 @@ export default function RegisterPage() {
         </form>
       </div>
     </div>
-  );
+  )
 }
