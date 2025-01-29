@@ -1,93 +1,80 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../components/AuthProvider';
-import axiosInstance from '../api/axiosInstance';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react"
+import { useAuth } from "../components/AuthProvider"
+import axiosInstance from "../api/axiosInstance"
+import { useNavigate } from "react-router-dom"
 
 const Login = () => {
-  const [credentials, setCredentials] = useState({ email: '', password: '' });
-  const { user, login } = useAuth();
-  const [error, setError] = useState('');
-  const navigate = useNavigate();
+  const [credentials, setCredentials] = useState({ email: "", password: "" })
+  const { user, login } = useAuth()
+  const [error, setError] = useState("")
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (user) {
-      navigate('/dashboard');
+      navigate("/dashboard")
     }
-  }, [user, navigate]);
+  }, [user, navigate])
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      const { data } = await axiosInstance.post(
-        '/auth/counsellor/login',
-        credentials
-      );
-      login(data.data.accessToken);
-      window.location.href = '/profile/counsellor';
+      const { data } = await axiosInstance.post("/auth/counsellor/login", credentials)
+      login(data.data.accessToken)
+      window.location.href = "/profile/counsellor"
     } catch (error) {
-      let errorMessage = 'An unknown error occurred. Please try again.';
+      let errorMessage = "An unknown error occurred. Please try again."
       if (error.response?.data) {
-        const matchedMessage =
-          error.response.data.match(/Error:\s(.*?)<br>/)?.[1];
-        errorMessage = matchedMessage || errorMessage;
+        const matchedMessage = error.response.data.match(/Error:\s(.*?)<br>/)?.[1]
+        errorMessage = matchedMessage || errorMessage
       }
-
-      console.error('Login failed:', errorMessage);
-      setError(errorMessage);
+      console.error("Login failed:", errorMessage)
+      setError(errorMessage)
     }
-  };
+  }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600">
-      <div className="bg-white p-10 rounded-xl shadow-2xl w-full max-w-lg">
-        <h1 className="text-3xl font-semibold text-center text-blue-600 mb-6">
-          Welcome Back!
-        </h1>
-        <p className="text-center text-gray-600 mb-8">
-          Log in to your account to continue your NSS journey.
-        </p>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-6">
-            <label className="block text-gray-700 font-medium text-sm mb-2">
-              Email
-            </label>
+    <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="w-full max-w-md p-8 rounded-2xl shadow-lg">
+        <h1 className="text-2xl font-semibold text-black mb-2">Login</h1>
+        <p className="text-gray-600 mb-6">Enter your email below to login to your account</p>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
             <input
               type="email"
-              placeholder="Enter your email"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="counsellor@gmail.com"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-200"
               value={credentials.email}
-              onChange={(e) =>
-                setCredentials({ ...credentials, email: e.target.value })
-              }
+              onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
             />
           </div>
-          <div className="mb-6">
-            <label className="block text-gray-700 font-medium text-sm mb-2">
-              Password
-            </label>
+          <div>
+            <div className="flex justify-between items-center mb-1">
+              <label className="block text-sm font-medium text-gray-700">Password</label>
+            </div>
             <input
               type="password"
-              placeholder="Enter your password"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-200"
               value={credentials.password}
-              onChange={(e) =>
-                setCredentials({ ...credentials, password: e.target.value })
-              }
+              onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-black text-white py-2 px-4 rounded-lg hover:bg-gray-800 transition-colors"
           >
-            Log In
+            Login
           </button>
+
         </form>
-        {error && (
-          <p className="text-red-500 text-sm mt-4 text-center">{error}</p>
-        )}
+        {error && <p className="text-red-500 text-sm mt-4 text-center">{error}</p>}
+        <p className="text-center mt-6 text-gray-600">
+          Don't have an account? Contact Admin{" "}
+        </p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
+

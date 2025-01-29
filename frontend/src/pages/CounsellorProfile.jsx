@@ -45,26 +45,10 @@ const CounsellorDashboard = () => {
         <h2 className="text-2xl font-semibold text-gray-800 mb-6">Counsellor Profile</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <p className="text-gray-700 text-lg">
-              <strong>Name:</strong> {counsellor.username}
-            </p>
-            <p className="text-gray-700 text-lg">
-              <strong>Email:</strong> {counsellor.email}
-            </p>
-            <p className="text-gray-700 text-lg">
-              <strong>Department:</strong> {counsellor.department}
-            </p>
-            <p className="text-gray-700 text-lg">
-              <strong>Code:</strong> {counsellor.code}
-            </p>
-          </div>
-          <div className="flex flex-col items-center justify-center text-center">
-            <img
-              src="/path/to/counsellor-avatar.jpg" // Replace with dynamic avatar image URL
-              alt="Counsellor Avatar"
-              className="rounded-full w-32 h-32 border-4 border-blue-600 shadow-md mb-4"
-            />
-            <p className="text-gray-700 text-lg">{counsellor.username}</p> {/* Avatar Text */}
+            <p className="text-gray-700 text-lg"><strong>Name:</strong> {counsellor.username}</p>
+            <p className="text-gray-700 text-lg"><strong>Email:</strong> {counsellor.email}</p>
+            <p className="text-gray-700 text-lg"><strong>Department:</strong> {counsellor.department}</p>
+            <p className="text-gray-700 text-lg"><strong>Code:</strong> {counsellor.code}</p>
           </div>
         </div>
       </div>
@@ -74,30 +58,26 @@ const CounsellorDashboard = () => {
         <h2 className="text-2xl font-semibold text-gray-800 mb-6">Assigned Students</h2>
         {students.length > 0 ? (
           <ul className="space-y-6">
-            {students.map((student) => (
-              <li
-                key={student._id}
-                className="flex justify-between items-center bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
-              >
-                <div>
-                  <p className="text-gray-700 font-medium">
-                    <strong>Name:</strong> {student.username}
-                  </p>
-                  <p className="text-gray-700">
-                    <strong>Email:</strong> {student.email}
-                  </p>
-                  <p className="text-gray-700">
-                    <strong>USN:</strong> {student.usn}
-                  </p>
-                </div>
-                <Link
-                  to={`/students/${student.usn}`}
-                  className="text-indigo-600 hover:text-indigo-800 font-semibold transition duration-300"
+            {students.map((student) => {
+              return (
+                <li
+                  key={student._id}
+                  className="flex justify-between items-center bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 ease-in-out"
                 >
-                  View Details
-                </Link>
-              </li>
-            ))}
+                  <div>
+                    <p className="text-gray-700 font-medium"><strong>Name:</strong> {student.username}</p>
+                    <p className="text-gray-700"><strong>Email:</strong> {student.email}</p>
+                    <p className="text-gray-700"><strong>USN:</strong> {student.usn}</p>
+                  </div>
+                  <Link
+                    to={`/students/${student.usn}`}
+                    className="text-indigo-600 hover:text-indigo-800 font-semibold transition duration-300"
+                  >
+                    View Details
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         ) : (
           <p className="text-gray-500">No students assigned yet.</p>

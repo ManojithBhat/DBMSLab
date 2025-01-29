@@ -329,7 +329,7 @@ const getProfile = AsyncHandler(async (req, res) => {
   const user = await User.findOne({ usn })
     .populate({
       path: 'participated',
-      select: 'eventName date location description',
+      select: 'eventName date location description activityPoints',
     })
     .populate({
       path: 'poc',

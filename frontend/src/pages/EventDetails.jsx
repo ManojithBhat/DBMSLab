@@ -37,7 +37,7 @@ const EventDetailsPage = () => {
 
     fetchEventDetails()
     checkAdmin()
-  }, [eventId]) // Removed unnecessary dependency: user
+  }, [eventId])
 
   const handleDeleteEvent = async () => {
     try {
@@ -49,152 +49,127 @@ const EventDetailsPage = () => {
   }
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="text-sm font-medium">Loading...</div>
-      </div>
-    )
+    return <div className="p-4 text-sm">Loading...</div>
   }
 
   if (error) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="text-sm text-red-500">{error}</div>
-      </div>
-    )
+    return <div className="p-4 text-sm text-red-500">{error}</div>
   }
 
   if (!event) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="text-sm text-gray-500">Event not found</div>
-      </div>
-    )
+    return <div className="p-4 text-sm text-gray-500">Event not found</div>
   }
 
   return (
-    <div className="min-h-screen bg-white p-4 md:p-6">
-      <div className="max-w-5xl mx-auto space-y-8">
-        <div className="flex items-center justify-between">
-          <Link to="/list-events" className="text-sm font-medium text-black hover:underline">
-            ← Back to Events
-          </Link>
-          {user === "admin" && (
-            <button
-              onClick={() => navigate(`/add-volunteers/${eventId}`)}
-              className="px-4 py-2 bg-black text-white text-sm font-medium rounded-md hover:bg-gray-900 
-                       transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
-            >
-              Add Volunteers
-            </button>
-          )}
-        </div>
-
-        <div className="space-y-6">
-          <div>
-            <h1 className="text-2xl font-semibold text-gray-900">{event.eventName}</h1>
-            <p className="mt-2 text-sm text-gray-600">{event.description}</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="space-y-4">
-              <div>
-                <p className="text-sm text-gray-500">Date</p>
-                <p className="mt-1 text-sm font-medium">{new Date(event.date).toLocaleDateString()}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Location</p>
-                <p className="mt-1 text-sm font-medium">{event.location}</p>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <h2 className="text-sm font-medium text-gray-900">Event Lead</h2>
-              <div className="grid grid-cols-1 gap-4">
-                <div>
-                  <p className="text-sm text-gray-500">Name</p>
-                  <p className="mt-1 text-sm font-medium">{event.lead.username}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">USN</p>
-                  <p className="mt-1 text-sm font-medium">{event.lead.usn}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Department</p>
-                  <p className="mt-1 text-sm font-medium">{event.lead.department}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Email</p>
-                  <p className="mt-1 text-sm font-medium">{event.lead.email}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="border"></div>
-          <div className="space-y-4">
-            <h2 className="text-lg font-medium text-gray-900">Participants</h2>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-gray-200">
-                    <th className="text-left py-3 text-sm font-medium text-gray-500">USN</th>
-                    <th className="text-left py-3 text-sm font-medium text-gray-500">Name</th>
-                    <th className="text-left py-3 text-sm font-medium text-gray-500">Role</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {event.participants.map((participant) => (
-                    <tr key={participant._id} className="border-b border-gray-200 last:border-b-0">
-                      <td className="py-3 text-sm">{participant.usn}</td>
-                      <td className="py-3 text-sm">{participant.email}</td>
-                      <td className="py-3 text-sm">{participant.role}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
+    <div className="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">
+      <div className="mb-8 flex justify-between items-center">
+        <Link to="/list-events" className="text-sm text-gray-600 hover:text-gray-900">
+          ← Back to Events
+        </Link>
         {user === "admin" && (
-          <div className="pt-4">
-            <button
-              onClick={() => setShowDeleteConfirmation(true)}
-              className="w-full rounded-md border border-red-200 bg-white px-3 py-2 text-sm font-medium text-red-600 
-                       hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2
-                       transition-colors"
-            >
-              Delete Event
-            </button>
-          </div>
-        )}
-
-        {showDeleteConfirmation && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-lg p-6 max-w-sm w-full space-y-4">
-              <p className="text-sm font-medium text-gray-900">Are you sure you want to delete this event?</p>
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setShowDeleteConfirmation(false)}
-                  className="flex-1 rounded-md border border-gray-200 bg-white px-3 py-2 text-sm font-medium 
-                           hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2
-                           transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleDeleteEvent}
-                  className="flex-1 rounded-md bg-red-600 px-3 py-2 text-sm font-medium text-white 
-                           hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2
-                           transition-colors"
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          </div>
+          <button
+            onClick={() => navigate(`/add-volunteers/${eventId}`)}
+            className="px-4 py-2 text-sm bg-gray-900 text-white rounded hover:bg-gray-800"
+          >
+            Add Volunteers
+          </button>
         )}
       </div>
+
+      <div className="mb-8">
+        <h1 className="text-xl font-medium mb-2">{event.eventName}</h1>
+        <p className="text-gray-600">{event.description}</p>
+      </div>
+
+      <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+        <table className="min-w-full">
+          <tbody>
+            <tr>
+              <td className="py-2 text-sm text-gray-600">Date</td>
+              <td className="py-2 text-sm">{new Date(event.date).toLocaleDateString()}</td>
+            </tr>
+            <tr>
+              <td className="py-2 text-sm text-gray-600">Location</td>
+              <td className="py-2 text-sm">{event.location}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table className="min-w-full">
+          <tbody>
+            <tr>
+              <td className="py-2 text-sm text-gray-600">Lead Name</td>
+              <td className="py-2 text-sm">{event.lead.username}</td>
+            </tr>
+            <tr>
+              <td className="py-2 text-sm text-gray-600">USN</td>
+              <td className="py-2 text-sm">{event.lead.usn}</td>
+            </tr>
+            <tr>
+              <td className="py-2 text-sm text-gray-600">Department</td>
+              <td className="py-2 text-sm">{event.lead.department}</td>
+            </tr>
+            <tr>
+              <td className="py-2 text-sm text-gray-600">Email</td>
+              <td className="py-2 text-sm">{event.lead.email}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div>
+        <h2 className="text-lg font-medium mb-4">Participants</h2>
+        <div className="overflow-x-auto">
+          <table className="min-w-full">
+            <thead>
+              <tr className="border-b">
+                <th className="py-3 text-left text-sm font-medium text-gray-600">USN</th>
+                <th className="py-3 text-left text-sm font-medium text-gray-600">Name</th>
+                <th className="py-3 text-left text-sm font-medium text-gray-600">Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              {event.participants.map((participant) => (
+                <tr key={participant._id} className="border-b last:border-b-0">
+                  <td className="py-3 text-sm">{participant.usn}</td>
+                  <td className="py-3 text-sm">{participant.email}</td>
+                  <td className="py-3 text-sm">{participant.role}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {user === "admin" && (
+        <div className="mt-8">
+          <button onClick={() => setShowDeleteConfirmation(true)} className="text-sm text-red-600 hover:text-red-700">
+            Delete Event
+          </button>
+        </div>
+      )}
+
+      {showDeleteConfirmation && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <div className="bg-white p-6 rounded max-w-sm w-full">
+            <p className="text-sm mb-4">Are you sure you want to delete this event?</p>
+            <div className="flex gap-4">
+              <button
+                onClick={() => setShowDeleteConfirmation(false)}
+                className="flex-1 px-4 py-2 text-sm border rounded hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDeleteEvent}
+                className="flex-1 px-4 py-2 text-sm bg-red-600 text-white rounded hover:bg-red-700"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
