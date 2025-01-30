@@ -49,7 +49,12 @@ This is a full-stack web application built using **Node.js**, **React.js**, and 
    REFRESH_TOKEN_SECRET=123456
    REFRESH_TOKEN_EXPIRY=10d
    ```
-
+4. Create a `.env` file in the frontend folder with the following content:
+```env
+VITE_EMAILJS_SERVICE_ID=<enter emailjs service id>
+VITE_EMAILJS_TEMPLATE_ID=<enter emailjs template>
+VITE_EMAILJS_PUBLIC_KEY=<enter public key>
+```
 ### Frontend
 
 1. Navigate to the frontend folder:
