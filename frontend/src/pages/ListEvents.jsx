@@ -21,13 +21,16 @@ const EventsPage = () => {
     }
 
     const checkAdmin = async () => {
-      try {
-        const response = await axiosInstance.get("/auth/check-admin")
-        setUser(response.data.data)
-        setLoading(false)
-      } catch (err) {
-        setError("Failed to fetch user details")
-        setLoading(false)
+      if(document.cookie.includes("accessToken")){
+        try {  
+          const response = await axiosInstance.get("/auth/check-admin")
+          setUser(response.data.data)
+          setLoading(false)
+        } catch (err) {
+          setError("Failed to fetch user details")
+          setLoading(false)
+        }
+        console.log(user)
       }
     }
     checkAdmin()
