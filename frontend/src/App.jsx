@@ -24,6 +24,9 @@ import CounsellorLogin from './pages/CousnellorLogin';
 import AddEvent from './pages/AddEvent';
 import HomePage from './pages/HomePage';
 import Footer from './components/Footer';
+import AboutUs from './pages/About';
+import ProjectFeatures from './pages/Feature';
+import ComplaintForm from './pages/Complaint';
 
 function App() {
   return (
@@ -44,6 +47,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path='/about' element={<AboutUs />} />
         <Route path="/profile/counsellor" element={<CounsellorProfile />} />
         <Route path="/events/view/:eventId" element={<EventDetails />} />
         <Route path="/addevent" element={<AddEvent />} />
@@ -51,6 +55,8 @@ function App() {
         <Route path="/add-volunteers/:eventId" element={<AddVolunteers />} />
         <Route path="/students/:usn" element={<DashBoardUSN />} />
         <Route path="/check-route" element={<CheckRoutes />} />
+        <Route path='/features' element={<ProjectFeatures/>}/>
+        <Route path="/complaints" element={<ComplaintForm/>}/>
       </Routes>
       <Footer />
     </div>

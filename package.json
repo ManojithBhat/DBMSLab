@@ -14,7 +14,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "concurrently": "^9.1.0",
+    "emailjs": "^4.0.3",
     "html5-qrcode": "^2.3.8",
     "jwt-decode": "^4.0.0",
     "react-icons": "^5.4.0"
