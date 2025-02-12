@@ -25,7 +25,7 @@ const features = [
     title: "Check All POCs",
     description: "View and manage points of contact for various activities.",
     icon: "👥",
-    route: "/pocs",
+    route: "/list-poc",
   },
   {
     title: "List All Events",
@@ -52,41 +52,41 @@ const adminFeatures = [
 ]
 
 const ProjectFeatures = () => {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  // const [user, setUser] = useState(null)
+  // const [loading, setLoading] = useState(true)
+  // const [error, setError] = useState(null)
   const navigate = useNavigate()
 
-  useEffect(() => {
-    const checkUserRole = async () => {
-      try {
-        const adminResponse = await axiosInstance.get("/auth/check-admin")
-        if (adminResponse.data.data) {
-          setUser({ role: "admin" })
-        } else {
-          const counsellorResponse = await axiosInstance.get("/auth/check-admin")
-          if (counsellorResponse.data.data) {
-            setUser({ role: "counsellor" })
-          } else {
-            setUser({ role: "user" })
-          }
-        }
-        console.log(adminResponse)
-        setLoading(false)
-      } catch (err) {
-        setError("Failed to fetch user details")
-        setLoading(false)
-      }
-    }
+  // useEffect(() => {
+  //   const checkUserRole = async () => {
+  //     try {
+  //       const adminResponse = await axiosInstance.get("/auth/check-admin")
+  //       if (adminResponse.data.data) {
+  //         setUser({ role: "admin" })
+  //       } else {
+  //         const counsellorResponse = await axiosInstance.get("/auth/check-admin")
+  //         if (counsellorResponse.data.data) {
+  //           setUser({ role: "counsellor" })
+  //         } else {
+  //           setUser({ role: "user" })
+  //         }
+  //       }
+  //       console.log(adminResponse)
+  //       setLoading(false)
+  //     } catch (err) {
+  //       setError("Failed to fetch user details")
+  //       setLoading(false)
+  //     }
+  //   }
 
-    checkUserRole()
-  }, [])
+  //   checkUserRole()
+  // }, [])
 
-  if (loading) return <div className="text-center py-20">Loading...</div>
-  if (error) return <div className="text-center py-20 text-red-500">{error}</div>
+  // if (loading) return <div className="text-center py-20">Loading...</div>
+  // if (error) return <div className="text-center py-20 text-red-500">{error}</div>
 
-  const featuresToRender =
-    user.role === "admin" ? adminFeatures : user.role === "counsellor" ? counsellorFeatures : features
+  const featuresToRender = features;
+    // user.role === "admin" ? adminFeatures : user.role === "counsellor" ? counsellorFeatures : features
 
   const handleCardClick = (route) => {
     navigate(route)
