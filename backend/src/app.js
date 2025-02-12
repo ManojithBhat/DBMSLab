@@ -36,4 +36,8 @@ app.use('/auth/counsellor', counsellorRouter);
 import EventRouter from './routes/event.route.js';
 app.use('/event', EventRouter);
 
+import PocRouter from './routes/poc.route.js'; 
+app.use('/poc', PocRouter); 
+
+
 export { app };

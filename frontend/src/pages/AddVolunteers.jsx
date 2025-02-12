@@ -22,7 +22,7 @@ const EventDetailsPage = () => {
         scanner.stop().catch((error) => console.error("Error stopping scanner:", error))
       }
     }
-  }, [eventId, scanner]) // Added scanner to dependencies
+  }, [eventId]) // Added scanner to dependencies
 
   const fetchEventDetails = async () => {
     try {
@@ -255,4 +255,3 @@ const EventDetailsPage = () => {
 }
 
 export default EventDetailsPage
-

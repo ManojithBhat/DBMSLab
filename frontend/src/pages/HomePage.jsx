@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { Link } from "react-router-dom"
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const FAQ_data = [
   {
@@ -16,46 +16,23 @@ const FAQ_data = [
     question: "What is the Motto of NSS?",
     answer: 'The Motto or watchword of the National Service Scheme is "NOT ME BUT YOU."',
   },
-  {
-    question: "What does the color navy blue and red depict in the NSS badge?",
-    answer:
-      "The navy blue color indicates the cosmos, of which the NSS is a tiny part, ready to contribute its share for the welfare of mankind. The red color in the badge represents that the NSS volunteers are full of blood, i.e., lively, active, energetic, and full of high spirit.",
-  },
-  {
-    question: "What does the giant wheel depict in the NSS symbol?",
-    answer:
-      "The giant wheel represents the cycle of creation, preservation, and release, and signifies movement in life across time and space.",
-  },
-  {
-    question: "What sorts of benefits can I get from this scheme?",
-    answer:
-      "You can receive some weightage during admissions in higher studies and other benefits as decided by the institutions or university.",
-  },
-  {
-    question: "What sort of activities are taken under NSS?",
-    answer: "NSS mainly conducts two types of activities: i. Regular Activities, and ii. Special Camping programmes.",
-  },
-  {
-    question: "What is the overall objective of NSS?",
-    answer: "The overall objective of NSS is the development of students' personality through community service.",
-  },
-]
-
+];
 
 const teamMembers = [
   { name: "Manish Raj ", admissionNumber: "1RV22IS033", department: "Information Science and Engineering" },
   { name: "Manojith Bhat V", admissionNumber: "1RV22IS034", department: "Information Science and Engineering" },
-  { name: "Pranav Motamarri", admissionNumber: "1RV22IS046", department: "information Science and Engineering" },
-  
-]
-
+  { name: "Pranav Motamarri", admissionNumber: "1RV22IS046", department: "Information Science and Engineering" },
+];
 
 const HomePage = () => {
-  const [openIndex, setOpenIndex] = useState(null)
+  const [openIndex, setOpenIndex] = useState(null);
+  
+  // Replace this with actual authentication/role-check logic
+  const isAdmin = true; // Set to `true` for admins, `false` otherwise
 
   const toggleAccordion = (index) => {
-    setOpenIndex(openIndex === index ? null : index)
-  }
+    setOpenIndex(openIndex === index ? null : index);
+  };
 
   return (
     <main>
@@ -82,6 +59,12 @@ const HomePage = () => {
             >
               View Events
             </Link>
+            <Link
+              to="/list-poc"
+              className="w-full sm:w-auto px-8 py-3 rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50 text-sm font-medium"
+            >
+              View POCs
+            </Link>
           </div>
           <div className="max-w-4xl mx-auto">
             <img src="../public/RDC.jpg" alt="NSS Activities Dashboard" className="w-full rounded-lg shadow-lg" />
@@ -89,6 +72,7 @@ const HomePage = () => {
         </div>
       </section>
 
+      {/* FAQ Section */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -129,28 +113,8 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Cards Section
-      <section className="my-20 px-9">
-        <div className="container mx-auto px-8">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">Our Services</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {cardData.map((card, index) => (
-              <div
-                key={index}
-                className={`${cardColors[index % cardColors.length]} rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-105`}
-              >
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{card.title}</h3>
-                  <p className="text-gray-600">{card.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section> */}
-
       {/* Team Section */}
-      <section className="py-20 ">
+      <section className="py-20">
         <div className="px-4 mx-10">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">Our Team</h2>
           <div className="">
@@ -182,8 +146,7 @@ const HomePage = () => {
         </div>
       </section>
     </main>
-  )
-}
+  );
+};
 
-export default HomePage
-
+export default HomePage;

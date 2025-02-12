@@ -25,9 +25,7 @@ const EventDetailsPage = () => {
     }
 
     const checkAdmin = async () => {
-      if(document.cookie.includes("accessToken")){
       try {
-        
         const response = await axiosInstance.get("/auth/check-admin")
         setUser(response.data.data)
         setLoading(false)
@@ -35,10 +33,7 @@ const EventDetailsPage = () => {
         setError("Failed to fetch user details")
         setLoading(false)
       }
-      console.log(user)
     }
-  }
-    
 
     fetchEventDetails()
     checkAdmin()
@@ -180,4 +175,3 @@ const EventDetailsPage = () => {
 }
 
 export default EventDetailsPage
-

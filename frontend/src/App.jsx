@@ -1,11 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-//components
+// Components
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/NavBar';
 import CheckRoutes from './components/checkRoutes';
+import Footer from './components/Footer';
 
-//pages
+// Pages
 import SignupPage from './pages/Signup';
 import RegisterPage from './pages/Register';
 import Dashboard from './pages/DashBoard';
@@ -15,18 +16,19 @@ import EventDetails from './pages/EventDetails';
 import ListEvents from './pages/ListEvents';
 import AddVolunteers from './pages/AddVolunteers';
 import DashBoardUSN from './pages/DashBoardUSN';
+import PocPage from './pages/PocPage'; // ✅ Ensure correct import
 
-//css
-import './App.css';
-import './index.css';
 import CounsellorSignup from './pages/CousnellorSignup';
 import CounsellorLogin from './pages/CousnellorLogin';
 import AddEvent from './pages/AddEvent';
 import HomePage from './pages/HomePage';
-import Footer from './components/Footer';
 import AboutUs from './pages/About';
 import ProjectFeatures from './pages/Feature';
 import ComplaintForm from './pages/Complaint';
+
+// CSS
+import './App.css';
+import './index.css';
 
 function App() {
   return (
@@ -55,8 +57,9 @@ function App() {
         <Route path="/add-volunteers/:eventId" element={<AddVolunteers />} />
         <Route path="/students/:usn" element={<DashBoardUSN />} />
         <Route path="/check-route" element={<CheckRoutes />} />
-        <Route path='/features' element={<ProjectFeatures/>}/>
-        <Route path="/complaints" element={<ComplaintForm/>}/>
+        <Route path='/features' element={<ProjectFeatures />} />
+        <Route path="/complaints" element={<ComplaintForm />} />
+        <Route path="/list-poc" element={<PocPage />} /> {/* ✅ Added POC Page */}
       </Routes>
       <Footer />
     </div>
