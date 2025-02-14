@@ -219,6 +219,43 @@ const getEvent = AsyncHandler(async (req, res) => {
     .json(new ApiResponse(200, events, 'Events fetched successfully'));
 });
 
+const searchRecords = AsyncHandler(async (req, res) => {
+  try {
+    const { eventName, location, date, minPoints, maxPoints } = req.body;
+
+    let conditions = [];
+
+    if (eventName) {
+      conditions.push({ eventName: { $regex: eventName, $options: 'i' } });
+    }
+
+    if (location) {
+      conditions.push({ location: { $regex: location, $options: 'i' } });
+    }
+
+    if (date) {
+      conditions.push({ date: new Date(date) });
+    }
+
+    let pointsCondition = {};
+    if (minPoints) pointsCondition.$gte = Number(minPoints);
+    if (maxPoints) pointsCondition.$lte = Number(maxPoints);
+    if (Object.keys(pointsCondition).length > 0) {
+      conditions.push({ activityPoints: pointsCondition });
+    }
+
+    const query = conditions.length > 0 ? { $and: conditions } : {};
+
+    const results = await Event.find(query);
+
+    res
+      .status(200)
+      .json(new ApiResponse(200, results, 'Events fetched successfully'));
+  } catch (error) {
+    throw new ApiError(404, 'No events found');
+  }
+});
+
 export {
   addEvent,
   updateEvent,
@@ -227,4 +264,5 @@ export {
   getEventDetails,
   getEvent,
   removeEventUser,
+  searchRecords,
 };

@@ -39,7 +39,6 @@ const updatePoc = AsyncHandler(async (req, res) => {
   }
   console.log(usn)
 
-
   await poc.save();
 
   res.status(200).json(new ApiResponse(200, poc, 'POC updated successfully'));

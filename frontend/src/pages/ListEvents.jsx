@@ -8,6 +8,13 @@ const EventsPage = () => {
   const [error, setError] = useState(null)
   const [user, setUser] = useState(null)
 
+  const [searchEventName, setSearchEventName] = useState("");
+  const [searchLocation, setSearchLocation] = useState("");
+  const [searchDate, setSearchDate] = useState("");
+  const [searchMinPoints, setSearchMinPoints] = useState("");
+  const [searchMaxPoints, setSearchMaxPoints] = useState("");
+  const [clearFilter, setClearFilter] = useState(false);
+
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -36,7 +43,26 @@ const EventsPage = () => {
     checkAdmin()
 
     fetchEvents()
-  }, [])
+  }, [clearFilter])
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axiosInstance.post("/event/search", {
+        eventName: searchEventName,
+        location: searchLocation,
+        date: searchDate,
+        minPoints: searchMinPoints,
+        maxPoints: searchMaxPoints
+      });
+      setEvents(response.data.data);
+    } catch (err) {
+      setError("Failed to fetch events");
+    }
+  };
+
+
+  
 
   if (loading) {
     return (
@@ -54,9 +80,67 @@ const EventsPage = () => {
     )
   }
 
+  const clearFilters = () => {
+    setSearchEventName("");
+    setSearchLocation("");
+    setSearchDate("");
+    setSearchMinPoints("");
+    setSearchMaxPoints("");
+
+    setClearFilter(!clearFilter);
+  }
+
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="max-w-6xl mx-auto">
+       {/* Search Form */}
+       <form onSubmit={handleSearch} className="mb-4 flex space-x-2">
+        <input
+          type="text"
+          placeholder="Event Name"
+          value={searchEventName}
+          onChange={(e) => setSearchEventName(e.target.value)}
+          className="border border-gray-300 rounded-md px-2 py-1"
+        />
+        <input
+          type="text"
+          placeholder="Location"
+          value={searchLocation}
+          onChange={(e) => setSearchLocation(e.target.value)}
+          className="border border-gray-300 rounded-md px-2 py-1"
+        />
+        <input
+          type="date"
+          value={searchDate}
+          onChange={(e) => setSearchDate(e.target.value)}
+          className="border border-gray-300 rounded-md px-2 py-1"
+        />
+        <input
+          type="number"
+          placeholder="Min Points"
+          value={searchMinPoints}
+          onChange={(e) => setSearchMinPoints(e.target.value)}
+          className="border border-gray-300 rounded-md px-2 py-1"
+        />
+        <input
+          type="number"
+          placeholder="Max Points"
+          value={searchMaxPoints}
+          onChange={(e) => setSearchMaxPoints(e.target.value)}
+          className="border border-gray-300 rounded-md px-2 py-1"
+        />
+        <button
+          type="submit"
+          className="text-sm font-medium px-4 py-2 rounded-md bg-black text-white hover:bg-gray-800"
+        >
+          Search
+        </button>
+        <button onClick={() => clearFilters()}
+          className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+        >
+          Clear
+        </button>
+      </form>
         <h1 className="text-2xl font-semibold text-gray-900 mb-8">Events</h1>
         <div className="border border-gray-200 rounded-lg overflow-hidden">
           <div className="overflow-x-auto">
