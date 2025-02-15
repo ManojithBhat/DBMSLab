@@ -94,7 +94,7 @@ To establish the connection, type `mongosh`.
 
 15. **Find a Particular Document (Acts Like `WHERE` Clause)**:
      ```shell
-     db.students.find({query parameters separated by comma}, {projection parameter})
+     db.students.find({query parameters separated by comma}, {projection parameter (name:true)})
      ```
      The projection parameter is like the `SELECT` statement and the query is the `WHERE` clause.
 
@@ -184,3 +184,80 @@ To establish the connection, type `mongosh`.
      show collections
      ```
      Lists all collections in the current database.
+
+
+22. Aggreate pipeline 
+
+   Match will get all the document with the field isActive true and $count will give count of the user based on the activeUser field
+
+   [
+  {
+    $match: {
+      isActive: true
+    }
+  },
+  {
+    $count: "activeUsers"
+  }
+]
+
+
+group by keyboard - need to give on which one 
+
+[
+  {
+    $group: {
+    	_id: "$gender"
+    }
+  }
+]
+
+   group by the gender and do the average on the age and put in the variable averageAge
+
+[
+  {
+    $group: {
+    	_id: "$gender", //it can be null -> then group all of them
+      averageAge:{
+        $avg:"$age"
+      }
+    }
+  }
+]
+
+Group the user based on the favoriteFruit field and then do the count by using sum , sort it in descending order and limit it to the 2
+
+[
+  {
+    $group: {
+    	_id: "$favoriteFruit",
+      count:{
+        $sum:1
+      }
+    }
+  },
+  {
+    $sort: {
+      count: -1
+    }
+  },{
+    $limit: 2
+  }
+]
+
+match and projection
+
+[
+  {
+    $match: {
+      isActive:false,tags:"velit"
+    }
+  },
+  {
+    $project: {
+      name:1,
+      age:1
+    }
+  }
+]
+

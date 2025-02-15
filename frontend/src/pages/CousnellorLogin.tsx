@@ -34,7 +34,7 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white">
-      <div className="w-full max-w-md p-8 rounded-2xl shadow-lg">
+      <div className="w-full max-w-md p-8 rounded-2xl">
         <h1 className="text-2xl font-semibold text-black mb-2">Login</h1>
         <p className="text-gray-600 mb-6">Enter your email below to login to your account</p>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -46,7 +46,7 @@ const Login = () => {
               id="email"
               type="email"
               required
-              placeholder="m@example.com"
+              placeholder="email@rvce.edu.in"
               className="mt-1 block w-full rounded-md border border-gray-200 px-3 py-2 text-sm placeholder:text-gray-400
                        focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
               value={credentials.email}
@@ -59,9 +59,6 @@ const Login = () => {
               <label htmlFor="password" className="block text-sm font-medium text-gray-900">
                 Password
               </label>
-              <a href="/forgot-password" className="text-sm text-gray-600 hover:text-gray-900">
-                Forgot your password?
-              </a>
             </div>
             <input
               id="password"

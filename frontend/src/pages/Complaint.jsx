@@ -20,7 +20,7 @@ const ComplaintForm = () => {
         setUser(response.data.data)
       } catch (err) {
         console.error(err)
-        setError("Failed to fetch user data")
+        setError("Login to submit a complaint")
       } finally {
         setLoading(false)
       }
