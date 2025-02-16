@@ -113,11 +113,12 @@ const EventDetailsPage = () => {
     }
   }
 
-  const deleteVolunteer = async (volunteerUSN) => {
+  const deleteVolunteer = async (usn) => {
+    console.log(usn)
     setDeleteVolunteerError(null)
     try {
       await axiosInstance.delete(`/event/removeVolunteer/${eventId}`, {
-        data: { usn: volunteerUSN },
+          data: { usn },
       })
       fetchEventDetails()
     } catch (error) {

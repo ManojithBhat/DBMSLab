@@ -23,6 +23,6 @@ router.post('/updateEvent/:id', verifyAdminRole, updateEvent);
 router.post('/search', searchRecords);
 router.delete('/deleteEvent/:id', verifyAdminRole, deleteEvent);
 router.post('/addVolunteer/:eventId', verifyAdminRole, addEventUsers);
-router.delete('/removeVolunteer/:eventId', verifyAdminRole, removeEventUser);
+router.delete('/removeVolunteer/:eventId', removeEventUser);
 
 export default router;

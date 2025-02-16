@@ -134,6 +134,7 @@ const removeEventUser = AsyncHandler(async (req, res) => {
   const { usn } = req.body;
 
   const event = await Event.findById(eventId);
+  console.log(usn)
 
   if (!event) {
     throw new ApiError(404, 'Event not found');

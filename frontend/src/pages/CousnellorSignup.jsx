@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "../api/axiosInstance"; // Ensure axiosInstance is configured properly
 
 const departments = [
   'Computer Science and Engineering (CSE)',
@@ -10,7 +11,7 @@ const departments = [
   'Aerospace Engineering (ASE)',
 ];
 
-export default function CounsellorSignup() {
+const CounsellorSignup = () => {
   const [username, setUsername] = useState('');
   const [department, setDepartment] = useState('');
   const [email, setEmail] = useState('');
@@ -20,45 +21,44 @@ export default function CounsellorSignup() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [user,setUser] = useState(null)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      try {
+        const response = await axiosInstance.get("/auth/check-admin");
+        if (response.data.data !== "admin") {
+          navigate("/"); // Redirect if not admin
+        } else {
+          setUser(response.data.data);
+        }
+      } catch (err) {
+        setError("Failed to fetch user details");
+        navigate("/");
+      }
+    };
+
+    checkAdmin();
+  }, [navigate]);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-
     try {
-      const response = await axios.post('/auth/counsellor/register', {
-        username,
-        department,
-        email,
-        password,
-        code,
-      });
-
-      if (response.status === 200) {
-        console.log('Counsellor signup successful');
-        setSuccessMessage('Counsellor signup successful');
-      } else {
-        console.error('Signup failed:', response);
-        setError('Signup failed');
-        console.log("There is an error")
-      }
-    } catch (error) {
-      let errorMessage = 'An unknown error occurred. Please try again.';
-      if (error.response?.data) {
-        const matchedMessage =
-          error.response.data.match(/Error:\s(.*?)<br>/)?.[1];
-        errorMessage = matchedMessage || errorMessage;
-      }
-
-      console.error('Login failed:', errorMessage);
-      setError(errorMessage);
+      await axiosInstance.post("/auth/signup-counsellor", formData);
+      navigate("/dashboard"); // Redirect after successful signup
+    } catch (err) {
+      setError("Signup failed. Please try again.");
     }
   };
+
+  if (!user) {
+    return <div>Loading...</div>; // Prevent rendering before validation
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -257,4 +257,6 @@ export default function CounsellorSignup() {
       </div>
     </div>
   );
-}
+};
+
+export default CounsellorSignup;

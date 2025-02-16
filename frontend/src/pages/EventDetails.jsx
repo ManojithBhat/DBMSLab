@@ -39,6 +39,7 @@ const EventDetailsPage = () => {
     checkAdmin()
   }, [eventId])
 
+  console.log(user)
   const handleDeleteEvent = async () => {
     try {
       await axiosInstance.delete(`/event/deleteEvent/${eventId}`)
