@@ -51,13 +51,22 @@ const Dashboard = () => {
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
           {user.role === "admin" && (
-            <button
-              onClick={() => navigate("/addevent")}
-              className="px-4 py-2 bg-black text-white text-sm font-medium rounded-md hover:bg-gray-900 
-                       transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
-            >
-              Add Event
-            </button>
+            <div className="flex gap-4">  <button
+            onClick={() => navigate("/addevent")}
+            className="px-4 py-2 bg-black text-white text-sm font-medium rounded-md hover:bg-gray-900 
+                     transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+          >
+            Add Event
+          </button>
+          <button
+            onClick={() => navigate("/counsellor/signup")}
+            className="px-4 py-2 bg-black text-white text-sm font-medium rounded-md hover:bg-gray-900 
+                     transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+          >
+            Add Counsellor
+          </button>
+          </div>
+            
           )}
         </div>
 
