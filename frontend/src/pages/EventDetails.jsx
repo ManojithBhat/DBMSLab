@@ -39,7 +39,6 @@ const EventDetailsPage = () => {
     checkAdmin()
   }, [eventId])
 
-  console.log(user)
   const handleDeleteEvent = async () => {
     try {
       await axiosInstance.delete(`/event/deleteEvent/${eventId}`)
@@ -144,7 +143,7 @@ const EventDetailsPage = () => {
 
       {user === "admin" && (
         <div className="mt-8">
-          <button onClick={() => setShowDeleteConfirmation(true)} className="text-sm text-red-600 hover:text-red-700">
+          <button onClick={() => setShowDeleteConfirmation(true)} className="flex-1 px-4 py-2 text-sm bg-red-600 text-white rounded hover:bg-red-700">
             Delete Event
           </button>
         </div>

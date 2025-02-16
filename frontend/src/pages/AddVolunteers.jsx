@@ -14,6 +14,7 @@ const EventDetailsPage = () => {
   const [isScannerActive, setIsScannerActive] = useState(false)
   const [scanner, setScanner] = useState(null)
   const { eventId } = useParams()
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false)
 
   useEffect(() => {
     fetchEventDetails()
@@ -65,7 +66,7 @@ const EventDetailsPage = () => {
           setNewVolunteerUSN(decodedText)
           stopScanner()
         },
-        (errorMessage) => {
+        () => {
           console.log("QR Code scanning in progress...")
         },
       )
@@ -236,9 +237,8 @@ const EventDetailsPage = () => {
                       <td className="px-6 py-4 text-sm text-gray-500">{participant.email}</td>
                       <td className="px-6 py-4 text-sm text-gray-500">{participant.role}</td>
                       <td className="px-6 py-4">
-                        <button
-                          onClick={() => deleteVolunteer(participant.usn)}
-                          className="text-sm text-gray-500 hover:text-gray-900"
+                        <button className="text-sm font-medium px-4 py-2 rounded-md bg-red-500 text-white"
+                          onClick={() => setShowDeleteConfirmation(participant.usn)}
                         >
                           Delete
                         </button>
@@ -251,7 +251,32 @@ const EventDetailsPage = () => {
           </div>
         </div>
       </div>
+      {showDeleteConfirmation && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <div className="bg-white p-6 rounded max-w-sm w-full">
+            <p className="text-sm mb-4">Are you sure you want to delete this volunteer?</p>
+            <div className="flex gap-4">
+              <button
+                onClick={() => setShowDeleteConfirmation(false)}
+                className="flex-1 px-4 py-2 text-sm border rounded hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  deleteVolunteer(showDeleteConfirmation)
+                  setShowDeleteConfirmation(false)
+                }}
+                className="flex-1 px-4 py-2 text-sm bg-red-600 text-white rounded hover:bg-red-700"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
+
   )
 }
 
