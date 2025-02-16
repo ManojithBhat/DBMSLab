@@ -67,7 +67,7 @@ const HomePage = () => {
             </Link>
           </div>
           <div className="max-w-4xl mx-auto">
-            <img src="../public/RDC.jpg" alt="NSS Activities Dashboard" className="w-full rounded-lg shadow-lg" />
+            <img src="../RDC.jpg" alt="NSS Activities Dashboard" className="w-full rounded-lg shadow-lg" />
           </div>
         </div>
       </section>
