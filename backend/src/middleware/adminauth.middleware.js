@@ -2,7 +2,6 @@ import { AsyncHandler } from '../utils/AsyncHandler.js';
 import { ApiError } from '../utils/ApiError.js';
 import jwt, { decode } from 'jsonwebtoken';
 import { User } from '../models/user.model.js';
-import { Counsellor } from '../models/counsellor.model.js';
 
 export const verifyAdminRole = AsyncHandler(async (req, res, next) => {
   try {
@@ -22,21 +21,15 @@ export const verifyAdminRole = AsyncHandler(async (req, res, next) => {
       '-password -refreshToken'
     );
 
-    const counsellor = await Counsellor.findOne({email}).select(
-      '-password -refreshToken'
-    );
-
-    console.log(counsellor)
-    if (!user || !counsellor) {
+    if (!user) {
       throw new ApiError(401, 'Invalid Access');
     }
 
-    
     if (user.role !== 'admin') {
       throw new ApiError(401, 'Unauthorised Access');
     }
 
-    req.user = user || counsellor;
+    req.user = user;
 
     next();
   } catch (err) {
