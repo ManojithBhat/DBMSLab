@@ -59,6 +59,7 @@ To establish the connection, type `mongosh`.
      db.students.insertMany([{key: value, key1: value1}, {key: value, key1: value1}, {key: value, key1: value1}])
      ```
      This command inserts multiple documents into the `students` collection.
+     Note: If you try to insert documents into a collection that does not exist, MongoDB will create the collection automatically.
 
 11. **Data Types in MongoDB**:
      1. **String**: Enclosed within single or double quotes.
@@ -79,6 +80,10 @@ To establish the connection, type `mongosh`.
      db.students.find().sort({name: -1})
      ```
      Sorts documents by name in reverse alphabetical order.
+     ```shell
+     db.students.findOne()
+     ```
+     Note: This method only returns the first match it finds.
 
 13. **Limit the Documents Returned by `find` Method**:
      ```shell
@@ -260,4 +265,38 @@ match and projection
     }
   }
 ]
+
+# MySQL vs MongoDB
+
+## Introduction
+This document provides a comparison between **MySQL** (a relational database) and **MongoDB** (a NoSQL document-based database).
+
+## Differences Between MySQL and MongoDB
+
+| Feature            | MySQL (Relational DB) | MongoDB (Non-Relational DB) |
+|--------------------|----------------------|-----------------------------|
+| **Data Structure** | Tables with rows & columns (structured) | Documents in collections (JSON-like BSON) |
+| **Schema** | Fixed schema (predefined structure) | Dynamic schema (schema-less) |
+| **Query Language** | SQL (Structured Query Language) | MongoDB Query Language (JSON-like syntax) |
+| **Joins** | Supports complex joins | No native joins, uses embedding & referencing instead |
+| **Scalability** | Vertical scaling (adding CPU, RAM) | Horizontal scaling (sharding across multiple servers) |
+| **Performance** | Slower for read-heavy apps with complex joins | Faster for reads due to embedded data model |
+| **Transactions** | Strong ACID compliance | Supports transactions but optimized for high availability |
+| **Flexibility** | Rigid structure, requires schema modification | Schema-less, easy modification |
+| **Indexing** | Uses B-Trees for indexing | Uses B-Trees & other indexing techniques (e.g., Geospatial) |
+| **Use Cases** | Banking, ERP, applications requiring strong consistency | Big data, real-time analytics, IoT, content management |
+
+## When to Use MySQL
+- When data integrity and consistency are critical (e.g., banking, finance).
+- When complex joins and transactions are required.
+- When working with structured data.
+
+## When to Use MongoDB
+- When handling unstructured or semi-structured data.
+- When fast read and write operations are required.
+- When scalability and flexibility are priorities (e.g., cloud apps, real-time analytics).
+
+## Conclusion
+Both MySQL and MongoDB have their own strengths. The choice depends on the specific needs of your application. If structured data, transactions, and consistency are priorities, **MySQL** is a better choice. If flexibility, speed, and scalability are more important, **MongoDB** is preferable.
+
 
