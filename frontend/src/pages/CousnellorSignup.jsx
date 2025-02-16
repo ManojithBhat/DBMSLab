@@ -48,7 +48,7 @@ const CounsellorSignup = () => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value, // Ensure field names match state keys
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -67,134 +67,99 @@ const CounsellorSignup = () => {
       );
       setSuccessMessage("Signup successful! Redirecting...");
       setError("");
-      setTimeout(() => navigate("/profile"), 2000); // Redirect after success
+      setTimeout(() => navigate("/profile"), 2000);
     } catch (err) {
       setError(err.response?.data?.message || "Signup failed. Please try again.");
     }
   };
 
   if (!user) {
-    return <div>Loading...</div>; // Prevent rendering before validation
+    return <div>Loading...</div>;
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="w-full max-w-lg bg-white rounded-xl shadow-lg p-10">
-        <h2 className="text-3xl font-semibold text-center text-gray-800 mb-8">
-          Counsellor Sign Up
-        </h2>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label htmlFor="username" className="block text-sm font-medium text-gray-600">
-              Username
-            </label>
-            <input
-              id="username"
-              name="username"
-              type="text"
-              required
-              className="mt-2 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-              value={formData.username}
-              onChange={handleChange}
-            />
-          </div>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="w-full max-w-md bg-white rounded-lg shadow-md p-6">
+        <h2 className="text-2xl font-bold text-center text-gray-900 mb-6">Counsellor Sign Up</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            id="username"
+            name="username"
+            type="text"
+            placeholder="Username"
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            value={formData.username}
+            onChange={handleChange}
+          />
 
-          <div>
-            <label htmlFor="department" className="block text-sm font-medium text-gray-600">
-              Department
-            </label>
-            <select
-              id="department"
-              name="department"
-              required
-              className="mt-2 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-              value={formData.department}
-              onChange={handleChange}
-            >
-              <option value="">Select Department</option>
-              {departments.map((dept) => (
-                <option key={dept} value={dept}>
-                  {dept}
-                </option>
-              ))}
-            </select>
-          </div>
+          <select
+            id="department"
+            name="department"
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            value={formData.department}
+            onChange={handleChange}
+          >
+            <option value="">Select Department</option>
+            {departments.map((dept) => (
+              <option key={dept} value={dept}>{dept}</option>
+            ))}
+          </select>
 
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-600">
-              Email
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              className="mt-2 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-              value={formData.email}
-              onChange={handleChange}
-            />
-          </div>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="Email"
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            value={formData.email}
+            onChange={handleChange}
+          />
 
-          <div>
-            <label htmlFor="code" className="block text-sm font-medium text-gray-700">
-              Set Counsellor Code
-            </label>
-            <input
-              id="code"
-              name="code"
-              type="text"
-              required
-              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              value={formData.code}
-              onChange={handleChange}
-            />
-          </div>
+          <input
+            id="code"
+            name="code"
+            type="text"
+            placeholder="Set Counsellor Code"
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            value={formData.code}
+            onChange={handleChange}
+          />
 
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-600">
-              Password
-            </label>
-            <div className="mt-2 relative">
-              <input
-                id="password"
-                name="password"
-                type={showPassword ? "text" : "password"}
-                required
-                className="block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                value={formData.password}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
+          <input
+            id="password"
+            name="password"
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            value={formData.password}
+            onChange={handleChange}
+          />
 
-          <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-600">
-              Confirm Password
-            </label>
-            <div className="mt-2 relative">
-              <input
-                id="confirmPassword"
-                name="confirmPassword"
-                type={showPassword ? "text" : "password"}
-                required
-                className="block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
+          <input
+            id="confirmPassword"
+            name="confirmPassword"
+            type={showPassword ? "text" : "password"}
+            placeholder="Confirm Password"
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+          />
 
-          {error && <p className="text-red-500 text-sm">{error}</p>}
-          {successMessage && <p className="text-green-500 text-sm">{successMessage}</p>}
+          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+          {successMessage && <p className="text-green-500 text-sm text-center">{successMessage}</p>}
 
-          <div>
-            <button
-              type="submit"
-              className="w-full py-3 px-6 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            >
-              Sign up
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="w-full py-2 bg-black text-white font-semibold rounded-md shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            Sign Up
+          </button>
         </form>
       </div>
     </div>
