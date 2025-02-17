@@ -218,11 +218,9 @@ const getEvent = AsyncHandler(async (req, res) => {
   const events = await Event.find()
     .populate({
       path: 'poc',
-      model: 'Poc',
       select: 'pocName pocNumber head',
       populate: {
         path: 'head',
-        model: 'User',
         select: 'username'
       }
     });
@@ -230,8 +228,6 @@ const getEvent = AsyncHandler(async (req, res) => {
   if (!events) {
     throw new ApiError(404, 'No events found');
   }
-
-  console.log("Events with POC:", JSON.stringify(events, null, 2));
 
   res
     .status(200)
@@ -266,16 +262,7 @@ const searchRecords = AsyncHandler(async (req, res) => {
     const query = conditions.length > 0 ? { $and: conditions } : {};
 
     const results = await Event.find(query)
-      .populate({
-        path: 'poc',
-        model: 'Poc',
-        select: 'pocName pocNumber head',
-        populate: {
-          path: 'head',
-          model: 'User',
-          select: 'username'
-        }
-      });
+     
 
     res
       .status(200)
