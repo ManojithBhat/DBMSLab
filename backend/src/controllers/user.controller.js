@@ -374,6 +374,20 @@ const checkAdmin = AsyncHandler(async (req, res) => {
     .json(new ApiResponse(200, user.role, 'User fetched successfully'));
 });
 
+const getPocs = AsyncHandler(async (req, res) => {
+  const pocs = await User.find({
+    role: { $in: ['admin', 'lead'] }
+  }).select('username email role department');
+
+  if (!pocs || pocs.length === 0) {
+    throw new ApiError(404, 'No POCs found');
+  }
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, pocs, 'POCs fetched successfully'));
+});
+
 export {
   register,
   registerUser,
@@ -383,4 +397,5 @@ export {
   refreshAccessToken,
   getProfile,
   checkAdmin,
+  getPocs
 };

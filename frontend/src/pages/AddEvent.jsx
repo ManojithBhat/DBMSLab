@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import axiosInstance from "../api/axiosInstance"
 
@@ -9,10 +9,32 @@ const AddEvent = () => {
     location: "",
     date: "",
     activityPoints: "",
+    poc: "",
   })
+  const [pocList, setPocList] = useState([])
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const fetchPOCs = async () => {
+      try {
+        const response = await axiosInstance.get("/poc/list-poc", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        })
+        if (response.data.statusCode === 200) {
+          setPocList(response.data.data)
+        }
+      } catch (error) {
+        console.error("Error fetching POCs:", error)
+        setError("Failed to load POC list. Please refresh the page.")
+      }
+    }
+
+    fetchPOCs()
+  }, [])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -118,6 +140,29 @@ const AddEvent = () => {
               onChange={handleChange}
               required
             />
+          </div>
+
+          <div>
+            <label htmlFor="poc" className="block text-sm font-medium text-gray-900">
+              Point of Contact (POC)
+            </label>
+            <select
+              id="poc"
+              name="poc"
+              className="mt-1 block w-full rounded-md border border-gray-200 px-3 py-2 text-sm 
+                       focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+              value={eventData.poc}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select a POC</option>
+              {pocList.map((poc) => (
+                <option key={poc._id} value={poc._id}>
+                  {poc.pocName} (POC {poc.pocNumber})
+                  {poc.head?.username ? ` - ${poc.head.username}` : ' - No Head Assigned'}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div>

@@ -8,14 +8,14 @@ import { User } from '../models/user.model.js';
 It takes in the eventname, description, date, location and adds it to the database 
 It also checks if the same event ( with eventname and date being same ) and then throws error if its alreay present */
 const addEvent = AsyncHandler(async (req, res) => {
-  const { eventName, description, location, date, activityPoints } = req.body;
+  const { eventName, description, location, date, activityPoints, poc } = req.body;
 
   if (
-    [eventName, description, location, date].some(
+    [eventName, description, location, date, poc].some(
       (field) => field?.trim() === ''
     )
   ) {
-    throw new ApiError(400, 'All fields are required ');
+    throw new ApiError(400, 'All fields are required');
   }
 
   const existedEvent = await Event.findOne({
@@ -28,12 +28,13 @@ const addEvent = AsyncHandler(async (req, res) => {
 
   //add the new event to the database
   const event = await Event.create({
-    eventName: eventName,
-    description: description,
-    location: location,
-    date: date,
+    eventName,
+    description,
+    location,
+    date,
     lead: req.user._id,
-    activityPoints: activityPoints,
+    poc,
+    activityPoints,
   });
 
   if (!event) {
@@ -49,9 +50,9 @@ const addEvent = AsyncHandler(async (req, res) => {
 
 //It updates the event details by taking the id from the parameter and changes the required field
 const updateEvent = AsyncHandler(async (req, res) => {
-  const { eventName, description, location, date } = req.body;
+  const { eventName, description, location, date, poc } = req.body;
 
-  if (!eventName && !description && !location && !date) {
+  if (!eventName && !description && !location && !date && !poc) {
     throw new ApiError(400, 'Atleast one field is required to update');
   }
 
@@ -65,6 +66,7 @@ const updateEvent = AsyncHandler(async (req, res) => {
   event.description = description || event.description;
   event.location = location || event.location;
   event.date = date || event.date;
+  event.poc = poc || event.poc;
 
   await event.save();
 
@@ -196,6 +198,10 @@ const getEventDetails = AsyncHandler(async (req, res) => {
       path: 'lead',
       select: 'usn username email department',
     })
+    .populate({
+      path: 'poc',
+      select: 'usn username email department',
+    })
     .exec();
 
   if (!volunteers) {
@@ -209,11 +215,23 @@ const getEventDetails = AsyncHandler(async (req, res) => {
 
 // It returns all the documents in the collection
 const getEvent = AsyncHandler(async (req, res) => {
-  const events = await Event.find();
+  const events = await Event.find()
+    .populate({
+      path: 'poc',
+      model: 'Poc',
+      select: 'pocName pocNumber head',
+      populate: {
+        path: 'head',
+        model: 'User',
+        select: 'username'
+      }
+    });
 
   if (!events) {
     throw new ApiError(404, 'No events found');
   }
+
+  console.log("Events with POC:", JSON.stringify(events, null, 2));
 
   res
     .status(200)
@@ -247,7 +265,17 @@ const searchRecords = AsyncHandler(async (req, res) => {
 
     const query = conditions.length > 0 ? { $and: conditions } : {};
 
-    const results = await Event.find(query);
+    const results = await Event.find(query)
+      .populate({
+        path: 'poc',
+        model: 'Poc',
+        select: 'pocName pocNumber head',
+        populate: {
+          path: 'head',
+          model: 'User',
+          select: 'username'
+        }
+      });
 
     res
       .status(200)

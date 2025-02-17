@@ -25,6 +25,11 @@ const EventSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
+    poc: {
+      type: Schema.Types.ObjectId,
+      ref: 'Poc',
+      required: [true, 'Please select a Point of Contact (POC)'],
+    },
     activityPoints: {
       type: Number,
       required: [true, 'Please provide activity points'],

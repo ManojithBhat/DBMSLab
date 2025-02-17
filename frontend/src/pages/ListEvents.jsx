@@ -19,9 +19,11 @@ const EventsPage = () => {
     const fetchEvents = async () => {
       try {
         const response = await axiosInstance.get("/event/events")
+        console.log("Events response:", response.data);
         setEvents(response.data.data)
         setLoading(false)
       } catch (err) {
+        console.error("Error fetching events:", err);
         setError("Failed to fetch events")
         setLoading(false)
       }
@@ -90,6 +92,8 @@ const EventsPage = () => {
     setClearFilter(!clearFilter);
   }
 
+  const tableHeaders = ["Event Name", "Date", "Location", "Activity Points", "POC", "Participants"];
+
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="max-w-6xl mx-auto">
@@ -147,7 +151,7 @@ const EventsPage = () => {
             <table className="w-full">
               <thead>
                 <tr className="bg-gray-50 border-b border-gray-200">
-                  {["Event Name", "Date", "Location", "Activity Points", "Participants"].map((heading, index) => (
+                  {tableHeaders.map((heading, index) => (
                     <th key={index} className="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
                       {heading}
                     </th>
@@ -168,6 +172,15 @@ const EventsPage = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{event.location}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {event.activityPoints || "N/A"}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {event.poc ? (
+                        <span>
+                          {event.poc.pocName || 'Unknown POC'} 
+                          {event.poc.pocNumber && `(POC ${event.poc.pocNumber})`}
+                          {event.poc.head?.username && ` - ${event.poc.head.username}`}
+                        </span>
+                      ) : "N/A"}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{event.participants.length}</td>
                   </tr>
