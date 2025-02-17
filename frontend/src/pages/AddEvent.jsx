@@ -1,63 +1,82 @@
-import React, { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import axiosInstance from "../api/axiosInstance"
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../api/axiosInstance';
 
 const AddEvent = () => {
   const [eventData, setEventData] = useState({
-    eventName: "",
-    description: "",
-    location: "",
-    date: "",
-    activityPoints: "",
-  })
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
+    eventName: '',
+    description: '',
+    location: '',
+    date: '',
+    activityPoints: '',
+    pocsAssigned: [],
+  });
+
+  const [pocsList] = useState([1,2,3,4,5,6,7,8,9,10]);
+
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setEventData({ ...eventData, [name]: value })
-  }
+    const { name, value } = e.target;
+    setEventData({ ...eventData, [name]: value });
+  };
 
+  const handlePocsAssignedChange = (e) => {
+    const selectedValues = Array.from(
+      e.target.selectedOptions,
+      (option) => option.value
+    );
+    setEventData({ ...eventData, pocsAssigned: selectedValues });
+  };
+
+  
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setError("")
+    e.preventDefault();
+    setLoading(true);
+    setError('');
 
     try {
-      const response = await axiosInstance.post("/event/addevent", eventData, {
+      const response = await axiosInstance.post('/event/addevent', eventData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
-      })
+      });
       if (response.data.statusCode === 200) {
-        navigate(`/events/view/${response.data.data._id}`)
+        navigate(`/events/view/${response.data.data._id}`);
       }
     } catch (error) {
-      let errorMessage = "An unknown error occurred. Please try again."
+      let errorMessage = 'An unknown error occurred. Please try again.';
       if (error.response?.data) {
-        const matchedMessage = error.response.data.match(/Error:\s(.*?)<br>/)?.[1]
-        errorMessage = matchedMessage || errorMessage
+        const matchedMessage = error.response.data.match(/Error:\s(.*?)<br>/)?.[1];
+        errorMessage = matchedMessage || errorMessage;
       }
-
-      console.error(errorMessage)
-      setError(errorMessage)
+      setError(errorMessage);
+      console.error(errorMessage);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-6">
         <div>
-          <h2 className="text-2xl font-semibold text-gray-900">Add New Event</h2>
-          <p className="mt-2 text-sm text-gray-600">Fill in the details below to create a new event</p>
+          <h2 className="text-2xl font-semibold text-gray-900">
+            Add New Event
+          </h2>
+          <p className="mt-2 text-sm text-gray-600">
+            Fill in the details below to create a new event
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="eventName" className="block text-sm font-medium text-gray-900">
+            <label
+              htmlFor="eventName"
+              className="block text-sm font-medium text-gray-900"
+            >
               Event Name
             </label>
             <input
@@ -73,7 +92,10 @@ const AddEvent = () => {
           </div>
 
           <div>
-            <label htmlFor="description" className="block text-sm font-medium text-gray-900">
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-gray-900"
+            >
               Description
             </label>
             <textarea
@@ -89,7 +111,10 @@ const AddEvent = () => {
           </div>
 
           <div>
-            <label htmlFor="location" className="block text-sm font-medium text-gray-900">
+            <label
+              htmlFor="location"
+              className="block text-sm font-medium text-gray-900"
+            >
               Location
             </label>
             <input
@@ -105,7 +130,10 @@ const AddEvent = () => {
           </div>
 
           <div>
-            <label htmlFor="date" className="block text-sm font-medium text-gray-900">
+            <label
+              htmlFor="date"
+              className="block text-sm font-medium text-gray-900"
+            >
               Date
             </label>
             <input
@@ -121,7 +149,10 @@ const AddEvent = () => {
           </div>
 
           <div>
-            <label htmlFor="activityPoints" className="block text-sm font-medium text-gray-900">
+            <label
+              htmlFor="activityPoints"
+              className="block text-sm font-medium text-gray-900"
+            >
               Activity Points
             </label>
             <input
@@ -136,6 +167,28 @@ const AddEvent = () => {
             />
           </div>
 
+          <div>
+            <label htmlFor="pocsAssigned" className="block text-sm font-medium text-gray-900">
+              Assign POCs
+            </label>
+            <select
+              id="pocsAssigned"
+              name="pocsAssigned"
+              className="mt-1 block w-full rounded-md border border-gray-200 px-3 py-2 text-sm
+                         focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+              multiple
+              value={eventData.pocsAssigned}
+              onChange={handlePocsAssignedChange}
+            >
+              {pocsList.map((poc) => (
+                <option key={poc} value={poc}>
+                  {poc}
+                </option>
+              ))}
+            </select>
+          </div>
+          
+
           {error && <p className="text-sm text-red-500">{error}</p>}
 
           <button
@@ -145,13 +198,12 @@ const AddEvent = () => {
                      hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2
                      disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            {loading ? "Creating Event..." : "Create Event"}
+            {loading ? 'Creating Event...' : 'Create Event'}
           </button>
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AddEvent
-
+export default AddEvent;

@@ -352,16 +352,15 @@ const checkAdmin = AsyncHandler(async (req, res) => {
   const usn = req.user.usn;
   // Assuming the user's `usn` is available in `req.user`
   const cid = req.user.code;
-  if(!usn && cid){
+  if (!usn && cid) {
     res
-    .status(200)
-    .json(new ApiResponse(200, cid, 'User fetched successfully'));
+      .status(200)
+      .json(new ApiResponse(200, cid, 'User fetched successfully'));
   }
 
   if (!usn) {
     throw new ApiError(400, 'USN is missing');
   }
-
 
   const user = await User.findOne({ usn });
 

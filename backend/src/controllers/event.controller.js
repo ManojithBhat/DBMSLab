@@ -8,8 +8,9 @@ import { User } from '../models/user.model.js';
 It takes in the eventname, description, date, location and adds it to the database 
 It also checks if the same event ( with eventname and date being same ) and then throws error if its alreay present */
 const addEvent = AsyncHandler(async (req, res) => {
-  const { eventName, description, location, date, activityPoints } = req.body;
+  const { eventName, description, location, date, activityPoints,pocsAssigned } = req.body;
 
+  console.log(pocsAssigned);
   if (
     [eventName, description, location, date].some(
       (field) => field?.trim() === ''
@@ -25,8 +26,19 @@ const addEvent = AsyncHandler(async (req, res) => {
   if (existedEvent) {
     throw new ApiError(409, 'Event already exists');
   }
+   
+  if (Array.isArray(pocsAssigned)) {
+    for (const pocId of pocsAssigned) {
+      const conflict = await Event.findOne({
+        date: new Date(date),
+        pocsAssigned: pocId,
+      });
+      if (conflict) {
+        throw new ApiError(409, 'One of the POCs is assigned to a different event on this day');
+      }
+    }
+  }
 
-  //add the new event to the database
   const event = await Event.create({
     eventName: eventName,
     description: description,
@@ -34,6 +46,7 @@ const addEvent = AsyncHandler(async (req, res) => {
     date: date,
     lead: req.user._id,
     activityPoints: activityPoints,
+    pocsAssigned: pocsAssigned,
   });
 
   if (!event) {
@@ -134,7 +147,7 @@ const removeEventUser = AsyncHandler(async (req, res) => {
   const { usn } = req.body;
 
   const event = await Event.findById(eventId);
-  console.log(usn)
+  console.log(usn);
 
   if (!event) {
     throw new ApiError(404, 'Event not found');

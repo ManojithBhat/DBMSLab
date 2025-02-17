@@ -1,45 +1,54 @@
-import React, { useState, useEffect } from "react"
-import { useAuth } from "../components/AuthProvider"
-import axiosInstance from "../api/axiosInstance"
-import { useNavigate } from "react-router-dom"
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../components/AuthProvider';
+import axiosInstance from '../api/axiosInstance';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const [credentials, setCredentials] = useState({ email: "", password: "" })
-  const { user, login } = useAuth()
-  const [error, setError] = useState("")
-  const navigate = useNavigate()
+  const [credentials, setCredentials] = useState({ email: '', password: '' });
+  const { user, login } = useAuth();
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
-      navigate("/dashboard")
+      navigate('/dashboard');
     }
-  }, [user, navigate])
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const { data } = await axiosInstance.post("/auth/counsellor/login", credentials)
-      login(data.data.accessToken)
-      window.location.href = "/profile/counsellor"
+      const { data } = await axiosInstance.post(
+        '/auth/counsellor/login',
+        credentials
+      );
+      login(data.data.accessToken);
+      window.location.href = '/profile/counsellor';
     } catch (error) {
-      let errorMessage = "An unknown error occurred. Please try again."
+      let errorMessage = 'An unknown error occurred. Please try again.';
       if (error.response?.data) {
-        const matchedMessage = error.response.data.match(/Error:\s(.*?)<br>/)?.[1]
-        errorMessage = matchedMessage || errorMessage
+        const matchedMessage =
+          error.response.data.match(/Error:\s(.*?)<br>/)?.[1];
+        errorMessage = matchedMessage || errorMessage;
       }
-      console.error("Login failed:", errorMessage)
-      setError(errorMessage)
+      console.error('Login failed:', errorMessage);
+      setError(errorMessage);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white">
       <div className="w-full max-w-md p-8 rounded-2xl">
         <h1 className="text-2xl font-semibold text-black mb-2">Login</h1>
-        <p className="text-gray-600 mb-6">Enter your email below to login to your account</p>
+        <p className="text-gray-600 mb-6">
+          Enter your email below to login to your account
+        </p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-900">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-900"
+            >
               Email
             </label>
             <input
@@ -50,13 +59,18 @@ const Login = () => {
               className="mt-1 block w-full rounded-md border border-gray-200 px-3 py-2 text-sm placeholder:text-gray-400
                        focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
               value={credentials.email}
-              onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
+              onChange={(e) =>
+                setCredentials({ ...credentials, email: e.target.value })
+              }
             />
           </div>
 
           <div>
             <div className="flex items-center justify-between">
-              <label htmlFor="password" className="block text-sm font-medium text-gray-900">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-900"
+              >
                 Password
               </label>
             </div>
@@ -68,7 +82,9 @@ const Login = () => {
               className="mt-1 block w-full rounded-md border border-gray-200 px-3 py-2 text-sm placeholder:text-gray-400
                        focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
               value={credentials.password}
-              onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+              onChange={(e) =>
+                setCredentials({ ...credentials, password: e.target.value })
+              }
             />
           </div>
 
@@ -81,14 +97,15 @@ const Login = () => {
             Login
           </button>
         </form>
-        {error && <p className="text-red-500 text-sm mt-4 text-center">{error}</p>}
+        {error && (
+          <p className="text-red-500 text-sm mt-4 text-center">{error}</p>
+        )}
         <p className="text-center mt-6 text-gray-600">
-          Don't have an account? Contact Admin{" "}
+          Don't have an account? Contact Admin{' '}
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
-
+export default Login;

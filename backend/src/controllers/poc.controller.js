@@ -6,8 +6,11 @@ import { User } from '../models/user.model.js';
 
 // Get all POCs
 const getAllPocs = AsyncHandler(async (req, res) => {
-  const pocs = await Poc.find().populate({ path: 'head', select: 'username email usn' });
-  
+  const pocs = await Poc.find().populate({
+    path: 'head',
+    select: 'username email usn',
+  });
+
   if (!pocs) {
     throw new ApiError(404, 'No POCs found');
   }
@@ -22,22 +25,22 @@ const updatePoc = AsyncHandler(async (req, res) => {
   }
 
   const { pocNumber, usn } = req.body;
-  console.log(pocNumber,usn)
+  console.log(pocNumber, usn);
 
   const poc = await Poc.findById(pocNumber);
   if (!poc) {
     throw new ApiError(404, 'POC not found');
   }
-  console.log(poc)
+  console.log(poc);
 
   if (usn) {
-    const user = await User.findOne({usn});
+    const user = await User.findOne({ usn });
     if (!user) {
       throw new ApiError(404, 'User not found');
     }
     poc.head = user._id;
   }
-  console.log(usn)
+  console.log(usn);
 
   await poc.save();
 

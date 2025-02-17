@@ -22,7 +22,9 @@ export const verifyJWT = AsyncHandler(async (req, res, next) => {
 
     // If not found, try to find the user in the counsellor collection
     if (!user) {
-      user = await Counsellor.findOne({ email }).select('-password -refreshToken');
+      user = await Counsellor.findOne({ email }).select(
+        '-password -refreshToken'
+      );
     }
 
     if (!user) {

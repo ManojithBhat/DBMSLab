@@ -1,48 +1,51 @@
-import React, { useEffect, useState } from "react"
-import { Link, useNavigate, useParams } from "react-router-dom"
-import axios from "axios"
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const Dashboard = () => {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-  const {usn}=useParams()
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const { usn } = useParams();
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(`/view/profile/${usn}`, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
           },
-        })
-        setUser(response.data.data)
+        });
+        setUser(response.data.data);
       } catch (err) {
-        console.error(err)
-        setError("Failed to fetch user data")
+        console.error(err);
+        setError('Failed to fetch user data');
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
-    fetchUser()
-  }, [])
+    };
+    fetchUser();
+  }, []);
 
   if (loading)
     return (
       <div className="flex justify-center items-center h-screen">
         <div className="text-sm font-medium">Loading...</div>
       </div>
-    )
+    );
 
   if (error)
     return (
       <div className="flex justify-center items-center h-screen">
         <div className="text-sm text-red-500">{error}</div>
       </div>
-    )
+    );
 
   // Calculate cumulative activity points
-  const cumulativeActivityPoints = user.participated.reduce((total, event) => total + (event.activityPoints || 0), 0)
+  const cumulativeActivityPoints = user.participated.reduce(
+    (total, event) => total + (event.activityPoints || 0),
+    0
+  );
 
   return (
     <div className="min-h-screen bg-white p-4 md:p-6">
@@ -74,7 +77,9 @@ const Dashboard = () => {
             </div>
             <div className="space-y-1">
               <p className="text-gray-500">Joined On</p>
-              <p className="font-medium">{new Date(user.createdAt).toLocaleDateString()}</p>
+              <p className="font-medium">
+                {new Date(user.createdAt).toLocaleDateString()}
+              </p>
             </div>
             <div className="space-y-1">
               <p className="text-gray-500">Role</p>
@@ -93,27 +98,44 @@ const Dashboard = () => {
 
         {/* Events Table */}
         <div className="space-y-4">
-          <h2 className="text-lg font-medium text-gray-900">Participated Events</h2>
+          <h2 className="text-lg font-medium text-gray-900">
+            Participated Events
+          </h2>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b">
-                  <th className="text-left py-3 px-4 font-medium text-gray-500">Event Name</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-500">Date</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-500">Location</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-500">Points</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-500">Details</th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-500">
+                    Event Name
+                  </th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-500">
+                    Date
+                  </th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-500">
+                    Location
+                  </th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-500">
+                    Points
+                  </th>
+                  <th className="text-left py-3 px-4 font-medium text-gray-500">
+                    Details
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {user.participated.map((event) => (
                   <tr key={event._id} className="border-b last:border-b-0">
                     <td className="py-3 px-4">{event.eventName}</td>
-                    <td className="py-3 px-4">{new Date(event.date).toLocaleDateString()}</td>
+                    <td className="py-3 px-4">
+                      {new Date(event.date).toLocaleDateString()}
+                    </td>
                     <td className="py-3 px-4">{event.location}</td>
                     <td className="py-3 px-4">{event.activityPoints || 0}</td>
                     <td className="py-3 px-4">
-                      <Link to={`/events/view/${event._id}`} className="text-black hover:underline font-medium">
+                      <Link
+                        to={`/events/view/${event._id}`}
+                        className="text-black hover:underline font-medium"
+                      >
                         View Event
                       </Link>
                     </td>
@@ -125,8 +147,7 @@ const Dashboard = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
-
+export default Dashboard;

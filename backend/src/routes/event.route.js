@@ -8,7 +8,7 @@ import {
   getEventDetails,
   addEventUsers,
   removeEventUser,
-  searchRecords
+  searchRecords,
 } from '../controllers/event.controller.js';
 import { verifyAdminRole } from '../middleware/adminauth.middleware.js';
 

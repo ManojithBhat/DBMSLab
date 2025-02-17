@@ -1,44 +1,44 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import axiosInstance from "../api/axiosInstance"; // Ensure axiosInstance is configured properly
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../api/axiosInstance'; // Ensure axiosInstance is configured properly
 
 const departments = [
-  "Computer Science and Engineering (CSE)",
-  "Information Science and Engineering (ISE)",
-  "Electrical and Electronics Engineering (EEE)",
-  "Electronics and Communication Engineering (ECE)",
-  "Mechanical Engineering (ME)",
-  "Aerospace Engineering (ASE)",
+  'Computer Science and Engineering (CSE)',
+  'Information Science and Engineering (ISE)',
+  'Electrical and Electronics Engineering (EEE)',
+  'Electronics and Communication Engineering (ECE)',
+  'Mechanical Engineering (ME)',
+  'Aerospace Engineering (ASE)',
 ];
 
 const CounsellorSignup = () => {
   const [formData, setFormData] = useState({
-    username: "",
-    department: "",
-    email: "",
-    code: "",
-    password: "",
-    confirmPassword: "",
+    username: '',
+    department: '',
+    email: '',
+    code: '',
+    password: '',
+    confirmPassword: '',
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const checkAdmin = async () => {
       try {
-        const response = await axiosInstance.get("/auth/check-admin");
-        if (response.data.data !== "admin") {
-          navigate("/"); // Redirect if not admin
+        const response = await axiosInstance.get('/auth/check-admin');
+        if (response.data.data !== 'admin') {
+          navigate('/'); // Redirect if not admin
         } else {
           setUser(response.data.data);
         }
       } catch (err) {
-        setError("Failed to fetch user details");
-        navigate("/");
+        setError('Failed to fetch user details');
+        navigate('/');
       }
     };
 
@@ -56,20 +56,22 @@ const CounsellorSignup = () => {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match!");
+      setError('Passwords do not match!');
       return;
     }
 
     try {
       const response = await axiosInstance.post(
-        "/auth/counsellor/register",
+        '/auth/counsellor/register',
         formData
       );
-      setSuccessMessage("Signup successful! Redirecting...");
-      setError("");
-      setTimeout(() => navigate("/profile"), 2000);
+      setSuccessMessage('Signup successful! Redirecting...');
+      setError('');
+      setTimeout(() => navigate('/profile'), 2000);
     } catch (err) {
-      setError(err.response?.data?.message || "Signup failed. Please try again.");
+      setError(
+        err.response?.data?.message || 'Signup failed. Please try again.'
+      );
     }
   };
 
@@ -80,7 +82,9 @@ const CounsellorSignup = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="w-full max-w-md bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-2xl font-bold text-center text-gray-900 mb-6">Counsellor Sign Up</h2>
+        <h2 className="text-2xl font-bold text-center text-gray-900 mb-6">
+          Counsellor Sign Up
+        </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             id="username"
@@ -103,7 +107,9 @@ const CounsellorSignup = () => {
           >
             <option value="">Select Department</option>
             {departments.map((dept) => (
-              <option key={dept} value={dept}>{dept}</option>
+              <option key={dept} value={dept}>
+                {dept}
+              </option>
             ))}
           </select>
 
@@ -132,7 +138,7 @@ const CounsellorSignup = () => {
           <input
             id="password"
             name="password"
-            type={showPassword ? "text" : "password"}
+            type={showPassword ? 'text' : 'password'}
             placeholder="Password"
             required
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
@@ -143,7 +149,7 @@ const CounsellorSignup = () => {
           <input
             id="confirmPassword"
             name="confirmPassword"
-            type={showPassword ? "text" : "password"}
+            type={showPassword ? 'text' : 'password'}
             placeholder="Confirm Password"
             required
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
@@ -152,7 +158,11 @@ const CounsellorSignup = () => {
           />
 
           {error && <p className="text-red-500 text-sm text-center">{error}</p>}
-          {successMessage && <p className="text-green-500 text-sm text-center">{successMessage}</p>}
+          {successMessage && (
+            <p className="text-green-500 text-sm text-center">
+              {successMessage}
+            </p>
+          )}
 
           <button
             type="submit"

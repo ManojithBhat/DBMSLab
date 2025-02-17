@@ -49,7 +49,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path='/about' element={<AboutUs />} />
+        <Route path="/about" element={<AboutUs />} />
         <Route path="/profile/counsellor" element={<CounsellorProfile />} />
         <Route path="/events/view/:eventId" element={<EventDetails />} />
         <Route path="/addevent" element={<AddEvent />} />
@@ -57,9 +57,10 @@ function App() {
         <Route path="/add-volunteers/:eventId" element={<AddVolunteers />} />
         <Route path="/students/:usn" element={<DashBoardUSN />} />
         <Route path="/check-route" element={<CheckRoutes />} />
-        <Route path='/features' element={<ProjectFeatures />} />
+        <Route path="/features" element={<ProjectFeatures />} />
         <Route path="/complaints" element={<ComplaintForm />} />
-        <Route path="/list-poc" element={<PocPage />} /> {/* ✅ Added POC Page */}
+        <Route path="/list-poc" element={<PocPage />} />{' '}
+        {/* ✅ Added POC Page */}
       </Routes>
       <Footer />
     </div>

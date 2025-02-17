@@ -29,6 +29,11 @@ const EventSchema = new Schema(
       type: Number,
       required: [true, 'Please provide activity points'],
     },
+    pocsAssigned: [
+      {
+        type: Number,
+      },
+    ],
     participants: [
       {
         type: Schema.Types.ObjectId,

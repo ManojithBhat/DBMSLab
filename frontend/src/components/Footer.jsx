@@ -62,7 +62,9 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="text-sm text-gray-500">Event Listing</li>
               <li className="text-sm text-gray-500">Easy Access</li>
-              <li className="text-sm text-gray-500">Student and Counsellor friendly</li>
+              <li className="text-sm text-gray-500">
+                Student and Counsellor friendly
+              </li>
               <li className="text-sm text-gray-500">Analytics</li>
             </ul>
           </div>

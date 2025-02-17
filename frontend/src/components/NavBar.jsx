@@ -1,10 +1,10 @@
-import React from "react"
-import { Link } from "react-router-dom"
-import { useAuth } from "./AuthProvider"
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { useAuth } from './AuthProvider';
 
 const Navbar = () => {
-  const { user, logout } = useAuth()
-  const isCounsellor = user?._id
+  const { user, logout } = useAuth();
+  const isCounsellor = user?._id;
 
   return (
     <header className="border-b border-gray-200">
@@ -14,16 +14,28 @@ const Navbar = () => {
             NSS RVCE
           </Link>
           <div className="hidden md:flex items-center space-x-6">
-            <Link to="/features" className="text-sm text-gray-500 hover:text-gray-900">
+            <Link
+              to="/features"
+              className="text-sm text-gray-500 hover:text-gray-900"
+            >
               Features
             </Link>
-            <Link to="/list-events" className="text-sm text-gray-500 hover:text-gray-900">
+            <Link
+              to="/list-events"
+              className="text-sm text-gray-500 hover:text-gray-900"
+            >
               Events
             </Link>
-            <Link to="/about" className="text-sm text-gray-500 hover:text-gray-900">
+            <Link
+              to="/about"
+              className="text-sm text-gray-500 hover:text-gray-900"
+            >
               About
             </Link>
-            <Link to="/complaints" className="text-sm text-gray-500 hover:text-gray-900">
+            <Link
+              to="/complaints"
+              className="text-sm text-gray-500 hover:text-gray-900"
+            >
               Complaints
             </Link>
           </div>
@@ -33,7 +45,7 @@ const Navbar = () => {
           {user ? (
             <>
               <Link
-                to={isCounsellor ? "/profile/counsellor" : "/profile"}
+                to={isCounsellor ? '/profile/counsellor' : '/profile'}
                 className="text-sm text-gray-500 hover:text-gray-900"
               >
                 Dashboard
@@ -47,7 +59,10 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <Link to="/login" className="text-sm text-gray-500 hover:text-gray-900">
+              <Link
+                to="/login"
+                className="text-sm text-gray-500 hover:text-gray-900"
+              >
                 Login
               </Link>
               <Link
@@ -61,8 +76,7 @@ const Navbar = () => {
         </div>
       </nav>
     </header>
-  )
-}
+  );
+};
 
-export default Navbar
-
+export default Navbar;

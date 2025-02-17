@@ -59,13 +59,13 @@ export default function RegisterPage() {
         navigate('/profile');
       }
     } catch (err) {
-      let errorMessage = "An unknown error occurred. Please try again.";
+      let errorMessage = 'An unknown error occurred. Please try again.';
       if (error.response?.data) {
         const matchedMessage =
           error.response.data.match(/Error:\s(.*?)<br>/)?.[1];
         errorMessage = matchedMessage || errorMessage;
       }
-      console.error("Signup failed:", errorMessage);
+      console.error('Signup failed:', errorMessage);
       setError(errorMessage);
     } finally {
       setIsLoading(false);
@@ -77,13 +77,18 @@ export default function RegisterPage() {
       <div className="max-w-md w-full space-y-6">
         <div className="text-center">
           <h2 className="text-3xl font-semibold text-gray-900">Register</h2>
-          <p className="mt-2 text-sm text-gray-600">Join us to be part of the NSS community and make a difference.</p>
+          <p className="mt-2 text-sm text-gray-600">
+            Join us to be part of the NSS community and make a difference.
+          </p>
         </div>
 
         <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-4">
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Full Name
               </label>
               <input
@@ -100,7 +105,10 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label htmlFor="department" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="department"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Department
               </label>
               <select
@@ -122,7 +130,10 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label htmlFor="counsellor" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="counsellor"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Counsellor ID
               </label>
               <input
@@ -139,7 +150,10 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label htmlFor="nssVolunteer" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="nssVolunteer"
+                className="block text-sm font-medium text-gray-700"
+              >
                 NSS Volunteer
               </label>
               <select
@@ -157,9 +171,12 @@ export default function RegisterPage() {
               </select>
             </div>
 
-            {formData.nssVolunteer === "yes" && (
+            {formData.nssVolunteer === 'yes' && (
               <div>
-                <label htmlFor="poc" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="poc"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   POC
                 </label>
                 <select
@@ -190,14 +207,18 @@ export default function RegisterPage() {
                        hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 disabled:opacity-50 
                        disabled:cursor-not-allowed transition-colors duration-200"
             >
-              {isLoading ? "Registering..." : "Register"}
+              {isLoading ? 'Registering...' : 'Register'}
             </button>
           </div>
 
           {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
-          {success && <p className="mt-2 text-sm text-green-600">Registration successful!</p>}
+          {success && (
+            <p className="mt-2 text-sm text-green-600">
+              Registration successful!
+            </p>
+          )}
         </form>
       </div>
     </div>
-  )
+  );
 }
