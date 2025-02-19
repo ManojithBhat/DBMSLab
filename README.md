@@ -1,13 +1,10 @@
-Here’s an updated README that includes your requirements:
-
 ---
 
-# Full-Stack Application
+# Club Management Application
 
 ## Overview
 
-This is a full-stack web application built using **Node.js**, **React.js**, and **MongoDB Atlas**. The application features a clean separation between the backend and frontend, leveraging **concurrently** to streamline development.
-
+This is a full-stack web application built using **Node.js**, **React.js**, and **MongoDB**. The application help you to track your activity points effectively at the same time allow multiple stakholders like counsellors ( to evaluate ) and club heads to update the points based on your participation. 
 ---
 
 ## Features
